@@ -1,4 +1,5 @@
 const rejectUnauthenticated = (req, res, next) => {
+	console.log('testing')
 	// check if logged in
 
 	if (req.isAuthenticated()) {

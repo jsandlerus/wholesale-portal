@@ -19,6 +19,8 @@ dsApi.requestJWTUserToken(clientId, userId, scopes, privateKeyFilename, expiresI
     return
   }
   dsApi.addDefaultHeader('Authorization', 'Bearer ' + results.body.access_token);  
+  console.log(dsApi);
+  
   authorized = true;
   sendSignRequest()
 })

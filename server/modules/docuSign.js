@@ -18,7 +18,7 @@ dsApi.requestJWTUserToken(clientId, userId, scopes, privateKeyFilename, expiresI
     console.log(error);
     return
   }
-  dsApi.addDefaultHeader('Authorization', 'Bearer ' + results.body.access_token);
+  dsApi.addDefaultHeader('Authorization', 'Bearer ' + results.body.access_token);  
   authorized = true;
   sendSignRequest()
 })
@@ -28,12 +28,8 @@ async function sendSignRequest() {
   if (!authorized) {
     return
   }
-  dsApi.listTemplates(userId, (result) => {
-    console.log(result.data);
-    
-  })
-
-  
+  let envelopeApi = new docusign.TemplatesApi(dsApi)
+  envelopeApi.listTemplates(userId)
 }
 
 

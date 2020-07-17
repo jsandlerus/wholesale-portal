@@ -20,6 +20,9 @@ const UserSchema = new Schema({
     default: false
   },
   docusignVerified: {
+    type: {},
+  },
+  documentSigned: {
     type: Boolean,
     default: false
   },

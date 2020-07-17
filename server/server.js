@@ -15,6 +15,8 @@ const gcRouter = require("./routes/goCardless.router");
 const orderRouter = require("./routes/order.router");
 const productRouter = require("./routes/product.router");
 const adminProductRouter = require("./admin-routes/product.router");
+const docuSignRouter = require("./routes/docuSign.router");
+
 dotenv.config();
 
 connectDB();
@@ -34,6 +36,7 @@ app.use("/auth", userRouter);
 app.use("/gc", gcRouter);
 app.use("/orders", orderRouter);
 app.use("/products", productRouter);
+app.use("/docuSign", docuSignRouter)
 
 /*AdminRouters*/
 app.use("/admin-products", adminProductRouter);

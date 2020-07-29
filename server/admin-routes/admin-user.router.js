@@ -4,6 +4,7 @@ const router = express.Router()
 const passport = require('../modules/passport')
 const { rejectNonAdmin } = require('../modules/authentication-middleware')
 const User = require('../schemas/userSchema')
+const { object } = require('prop-types')
 
 //Login
 router.post(
@@ -40,7 +41,7 @@ router.get('/', rejectNonAdmin, (req, res) => {
   const filterQuery = JSON.parse(req.query.filter)
 
   if (JSON.stringify(filterQuery) !== '{}') {
-    if( typeof filterQuery.id){
+    if(filterQuery.id){
        filterQuery._id = filterQuery.id
        delete filterQuery.id
     }

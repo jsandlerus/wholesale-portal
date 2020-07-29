@@ -39,7 +39,8 @@ import {
   useListContext,
   sanitizeListRestProps,
   AutocompleteInput,
-  NumberField
+  NumberField,
+  BooleanField
 } from 'react-admin'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -113,6 +114,7 @@ export const ProductShow = props => {
 export const ProductList = props => (
   <List {...props}>
     <Datagrid actions={<ListActions />} rowClick='show'>
+      <BooleanField label="Draft" source="draft"/>
       <TextField label='Name' source='name' />
       <TextField label='Category' source='category' />
       <NumberField label='Price' source='price' options={{ style: 'currency', currency: 'USD' }}/>

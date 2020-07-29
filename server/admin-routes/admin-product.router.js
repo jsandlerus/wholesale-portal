@@ -14,10 +14,7 @@ router.get('/', rejectNonAdmin, (req, res) => {
     const sortQuery = JSON.parse(req.query.sort)
     sort[sortQuery[0]] = sortQuery[1] === 'ASC' ? 1 : -1
   }
- 
   const filterQuery = JSON.parse(req.query.filter)
-
-  
   if (JSON.stringify(filterQuery) !== '{}') {
     if(filterQuery.id){
        filterQuery._id = filterQuery.id

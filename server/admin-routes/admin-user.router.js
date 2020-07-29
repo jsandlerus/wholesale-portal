@@ -39,7 +39,6 @@ router.get('/', rejectNonAdmin, (req, res) => {
     sort[sortQuery[0]] = sortQuery[1] === 'ASC' ? 1 : -1
   }
   const filterQuery = JSON.parse(req.query.filter)
-
   if (JSON.stringify(filterQuery) !== '{}') {
     if(filterQuery.id){
        filterQuery._id = filterQuery.id
@@ -47,6 +46,7 @@ router.get('/', rejectNonAdmin, (req, res) => {
     }
     console.log("Users filterQuery: ", filterQuery)
     User.find(filterQuery).then(filteredUsers => {
+      console.log("inital response", filteredUsers)
         res.set('content-range', JSON.stringify(filteredUsers.length + 1))
         //  each object needs to have an 'id' field in order for
         //  reactAdmin to parse

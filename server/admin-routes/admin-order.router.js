@@ -12,6 +12,7 @@ router.get('/', rejectNonAdmin, (req, res) => {
   let sort = {}
   sort[sortQuery[0]] = sortQuery[1] === 'ASC' ? 1 : -1
   if (JSON.stringify(filterQuery) !== '{}') {
+    
     console.log("orders filterQuery: ", filterQuery)
     Order.find(filterQuery)
       .sort(sort)

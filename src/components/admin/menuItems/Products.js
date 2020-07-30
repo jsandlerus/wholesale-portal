@@ -40,7 +40,8 @@ import {
   sanitizeListRestProps,
   AutocompleteInput,
   NumberField,
-  BooleanField
+  BooleanField,
+  Filter
 } from 'react-admin'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -112,7 +113,7 @@ export const ProductShow = props => {
 }
 
 export const ProductList = props => (
-  <List {...props}>
+  <List {...props} filters={< ProductFilter />}>
     <Datagrid actions={<ListActions />} rowClick='show'>
       <BooleanField label="Draft" source="draft"/>
       <TextField label='Name' source='name' />
@@ -231,6 +232,7 @@ export const ProductEdit = props => {
     >
       <SimpleForm>
         <TextInput disabled label='ID' source='id' />
+        <BooleanInput label="Draft (drafts are not shown to users)" source="draft"/>
         <AutocompleteInput
           lablel='Category'
           source='category'
@@ -308,6 +310,13 @@ export const ProductEdit = props => {
 }
 
 // custom components
+const ProductFilter = (props) => (
+  <Filter {...props}>
+      <BooleanInput label="Drafts" source="draft" />
+      <TextInput label="Name" source="name"/>
+  </Filter>
+);
+
 const ProductTitle = ({ record }) => {
   return <span>Edit Product: {record ? `"${record.name}"` : ''}</span>
 }

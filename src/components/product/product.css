@@ -66,6 +66,21 @@
   width: 100%;
 }
 
+.static_carousel_image_container,
+.static_carousel_image_container_active {
+  width: 18%;
+  border-radius: 15px;
+  border: 2px solid;
+}
+
+.static_carousel_image_container {
+  border-color: transparent;
+}
+
+.static_carousel_image_container_active {
+  border-color: rgba(89, 186, 71, 1);
+}
+
 .product_page_info {
   width: 50%;
   margin-right: 5%;

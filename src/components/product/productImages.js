@@ -6,11 +6,23 @@ const mapStateToProps = state => ({
   state: state.reducer
 })
 
-const CarouselImage = ({ image, select, index, activeIndex }) => {
-  const imageCSS =
-    index !== activeIndex
-      ? 'carousel_image_container'
-      : 'carousel_image_container_active'
+const selectCSS = (index, activeIndex) =>{
+  if (index === 0 && index !== activeIndex)
+  {
+    return 'static_carousel_image_container'
+  } else if(index === 0 && index === activeIndex){
+    return 'static_carousel_image_container_active'
+  } else if(index !== activeIndex){
+    return 'carousel_image_container'
+  } else {
+    return 'carousel_image_container_active'
+  }
+}
+
+const CarouselImage = ({ image, select, index, activeIndex}) => {
+
+  const imageCSS = selectCSS(index, activeIndex);
+
   return (
     <div className={imageCSS} onClick={() => select(index)}>
       <img className='carousel_image' src={image} alt='single_product_image' />
@@ -29,9 +41,8 @@ class ProductImages extends React.Component {
     this.setState({ active: index })
   }
 
-  changeStateValue = () => {}
-
   render () {
+
     const carouselImages = this.props.images.map((image, index) => (
       <CarouselImage
         image={image.url}

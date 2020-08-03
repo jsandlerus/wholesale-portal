@@ -17,6 +17,8 @@ import AdminError404 from './components/error/adminError404'
 import GoCardless from './components/cart/goCardless'
 import Admin from './components/admin/Setup'
 import { connect } from "react-redux";
+import Snackbar from "./components/reuseable/SnackBar";
+
 
 
 const cookie = new Cookies()
@@ -36,6 +38,7 @@ class App extends React.Component {
           <Sidebar />
           <div className='body'>
             <Header />
+            <Snackbar />
             <Switch>
               <Route exact path='/' component={Home} />
               <Route path='/account' component={Account} />

@@ -11,12 +11,9 @@ import { addQuantityToCart } from '../reuseable/addQuantityToCart'
 import { getPriceByQuantity } from '../reuseable/getPriceByQuantity'
 import { GreenButton } from '../reuseable/materialButtons'
 
-
-
 const mapStateToProps = state => ({
   state: state.reducer
 })
-
 
 class Product extends React.Component {
   constructor (props) {
@@ -50,7 +47,7 @@ class Product extends React.Component {
         priceTiers: [],
         _id: ''
       },
-      quantity: 1
+      quantity: 1,
     }
   }
 
@@ -77,6 +74,7 @@ class Product extends React.Component {
     product.quantity = this.state.quantity
     product.product = this.state.product._id
     addQuantityToCart(product)
+  //  this.setState({snackBarOpen: true})
   }
 
   render () {

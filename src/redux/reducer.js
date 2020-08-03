@@ -135,6 +135,28 @@ const reviews = (state = [], action) => {
   }
 }
 
+
+const snackbarState = {
+  snackbarOpen: false,
+  snackbarType: "success",
+  snackbarMessage: ""
+};
+
+const snackbar = (state = snackbarState, action) => {
+  switch (action.type) {
+    case "SET_SNACKBAR":
+    //  console.log("snackbar state", state)
+      return {
+        ...state,
+        snackbarOpen: action.payload.snackbarOpen,
+        snackbarType: action.payload.snackbarType,
+        snackbarMessage: action.payload.snackbarMessage
+      };
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   user,
   favorites,
@@ -143,5 +165,6 @@ export default combineReducers({
   products,
   orders,
   reviews,
-  loaded
+  loaded,
+  snackbar
 })

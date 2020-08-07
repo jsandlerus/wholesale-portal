@@ -16,7 +16,7 @@ router.get('/', rejectUnauthenticated, async (req, res) => {
     }
     const cart = user.cart;
     if (!cart.cart) {
-      res.status(404).send('no cart')
+      res.status(405).send('no cart')
       return
     }
     let cartProductInfo = []

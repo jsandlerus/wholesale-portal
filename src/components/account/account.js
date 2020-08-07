@@ -14,19 +14,15 @@ class Account extends React.Component {
 
   render() {    
     let wishlistProductList = this.props.state.wishlist.map(wishlistItem => {
-      let productInfo = this.props.state.products.products.find(product => {
-        if (product._id === wishlistItem && wishlistItem !== null){
-          console.log("product", product);
-          return (product);
-        }})
-      console.log("productInfo", productInfo);
-      // return (
-      //   // <FavoriteProductCard
-      //   //   product={productInfo}
-      //   //   key={productInfo._id}
-      //   //   images={productInfo.imageData}
-      //   // />
-      // )
+      let productInfo = this.props.state.products.products.find(product => product._id === wishlistItem)
+      console.log("PRODUCTINFO", productInfo);
+      return (
+        <FavoriteProductCard
+          product={productInfo}
+          key={productInfo._id}
+          images={productInfo.imageData}
+        />
+      );
     })
 
     return (

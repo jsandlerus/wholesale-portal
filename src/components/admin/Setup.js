@@ -7,6 +7,7 @@ import polyglotI18nProvider from 'ra-i18n-polyglot'
 import createAdminStore from './createAdminStore'
 
 import { UserList, UserEdit, UserShow } from './menuItems/Users'
+import { CustomList } from "./menuItems/Customs"
 import {
   ProductList,
   ProductShow,
@@ -61,6 +62,11 @@ const AdminSetup = () => (
         show={ProductShow}
         create={ProductCreate}
         icon={ProductIcon}
+      />
+      <Resource
+        name='admin-customs'
+        list={CustomList}
+        options={{label: "Custom"}}
       />
       <Resource
         name='admin-orders'

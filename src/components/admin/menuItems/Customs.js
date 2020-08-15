@@ -44,7 +44,8 @@ import {
   AutocompleteArrayInput,
   ReferenceInput,
   ReferenceArrayInput,
-  NumberField
+  NumberField,
+  SelectInput
 } from 'react-admin'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -118,30 +119,24 @@ export const CustomCreate = props => (
       <ReferenceArrayInput label="Customer" source="user" reference="admin-users"
         helperText="This customer will recieve an email with the details for this order."
       >
-        <AutocompleteInput
-          options={{
-            suggestionsContainerProps: {
-              disablePortal: true
-            }
-          }}
+        <SelectInput />
+        {/* <AutocompleteInput
         //below should prevent options from showing untill input is at a certain length. Doesn't work properly.
         // shouldRenderSuggestions={(val) => { return val.trim().length > 0}}
-        />
+        /> */}
       </ReferenceArrayInput>
       <ArrayInput label="Products" source="products">
         <SimpleFormIterator>
           <NumberInput label="Quantity" source="quantity" />
           <ReferenceArrayInput label="Product" source="name" reference="admin-products">
-            <AutocompleteInput
+            <SelectInput source="product"/>
+            {/* <AutocompleteInput
               source="product"
               options={{
                 suggestionsContainerProps: {
                   disablePortal: true
                 }
-              }}
-            //below should prevent options from showing untill input is at a certain length. Doesn't work properly.
-            // shouldRenderSuggestions={(val) => { return val.trim().length > 0}}
-            />
+              }} */}
           </ReferenceArrayInput>
         </SimpleFormIterator>
       </ArrayInput>

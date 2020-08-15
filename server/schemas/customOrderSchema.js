@@ -14,7 +14,6 @@ const CustomOrderSchema = new Schema({
   },
   name: {
     type: String,
-    required: true,
     default: ""
   },
   description: {

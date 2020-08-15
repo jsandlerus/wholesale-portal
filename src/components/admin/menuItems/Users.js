@@ -63,7 +63,6 @@ const useListStyles = makeStyles({
   },
 });
 
-
 export const UserList = ({ permissions, ...props }) => {
   const classes = useListStyles()
   return (
@@ -99,7 +98,9 @@ export const UserList = ({ permissions, ...props }) => {
 const UserFilter = props => {
   return (
     <Filter {...props}>
-      <BooleanInput source='deleted' label='Show Deleted' />
+      <TextInput label="Search by User" source="name" alwaysOn />
+      <TextInput label="Search by Email" source="email" alwaysOn />
+      <BooleanInput source='deleted' label='Show Disabled' alwaysOn/>
     </Filter>
   )
 }

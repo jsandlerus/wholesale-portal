@@ -37,20 +37,15 @@ import {
   Filter
 } from 'react-admin'
 
-// const OrderFilter = props => (
-//   <Filter {...props}>
-//     <TextInput label="Search by Order ID" source="id" alwaysOn />
-//     <TextInput label="Search by Tracking #" source="tracking.number" alwaysOn />
-//   </Filter>
-// )
+
 
 export const OrderList = props => (
   <List
     {...props}
+    // filters={<OrderFilter />}
     actions={<ListActions />}
     sort={{ field: 'date', order: 'DESC' }}
     bulkActionButtons={false}
-    // filters={<OrderFilter />}
   >
     <Datagrid rowClick='show'>
     <TextField label='Order ID' source='id' />
@@ -102,6 +97,13 @@ const ListActions = props => {
     </TopToolbar>
   )
 }
+
+// const OrderFilter = props => (
+//   <Filter {...props}>
+//     <TextInput label="Search by Order ID" source="id" alwaysOn />
+//     <TextInput label="Search by Tracking #" source="tracking.number" alwaysOn />
+//   </Filter>
+// )
 
 export const OrderShow = props => (
   <Show actions={<OrderShowActions />} {...props}>

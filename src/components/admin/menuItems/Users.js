@@ -47,18 +47,35 @@ import {
   Filter,
   useListContext,
   ExportButton,
-  SaveButton
+  SaveButton,
 } from 'react-admin'
+import { makeStyles } from '@material-ui/core/styles';
 
-export const UserList = ({ permissions, ...props }) => (
+
+
+
+const useListStyles = makeStyles({
+  actions: {
+      backgroundColor: 'Lavender',
+  },
+  header: {
+      backgroundColor: 'Lavender',
+  },
+});
+
+
+export const UserList = ({ permissions, ...props }) => {
+  const classes = useListStyles()
+  return (
   <List
+    classes={classes}
     filters={<UserFilter />}
     {...props}
     sort={{ field: 'date', order: 'DESC' }}
     bulkActionButtons={false}
     actions={<ListActions />}
   >
-    <Datagrid rowClick='show'>
+    <Datagrid classes={classes} rowClick='show'>
       <TextField label='User' source='name' />
       <TextField label='Email' source='email' />
       <ReferenceField
@@ -76,7 +93,8 @@ export const UserList = ({ permissions, ...props }) => (
       {permissions === 'owner' && <DeleteButton />}
     </Datagrid>
   </List>
-)
+  )
+  }
 
 const UserFilter = props => {
   return (

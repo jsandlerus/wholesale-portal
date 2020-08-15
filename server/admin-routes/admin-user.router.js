@@ -139,7 +139,7 @@ router.get('/', rejectNonAdmin, (req, res) => {
 //getOne
 router.get('/:id', rejectNonAdmin, (req, res) => {
   // console.log('getOne user hit. Id: ', req.params.id)
-  User.findOne({ _id: req.params.id })
+  User.findOne({ _id: req.params.id, deleted: false })
     .then(user => {
       user = JSON.parse(
         JSON.stringify(user)

@@ -35,7 +35,7 @@ class Logout extends React.Component {
   render() {
     return (
       <div>
-        <h3 className="logout_message">LOGGING YOU OUT...</h3>
+        <h3 className="logout_message">Logging You Out...</h3>
       </div>
     );
   }

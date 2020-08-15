@@ -115,7 +115,7 @@ class CreateReview extends React.Component {
                 className='create_review_button'
                 onClick={this.onSubmit}
               >
-                submit
+                Submit
               </GreenButton>
             )}
         </div>

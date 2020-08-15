@@ -35,7 +35,7 @@ const initializeGoCardless = async () => {
 // @desc    Returns all clients
 // @access  Private
 router.get('/checkClientID', rejectUnauthenticated, async (req, res) => {
-  User.findById(req.user._id)
+  User.findOne({ _id: req.user._id, deleted: false})
     .then(user => {
       if (user.goCardlessID) res.send(true)
       else res.send(false)
@@ -50,7 +50,7 @@ router.get('/checkClientID', rejectUnauthenticated, async (req, res) => {
 // @desc    Returns all clients
 // @access  Private
 router.get('/checkClientMandate', rejectUnauthenticated, async (req, res) => {
-  User.findById(req.user._id)
+  User.findOne({ _id: req.user._id, deleted: false })
     .then(user => {
       if (user.goCardlessMandate) res.send(true)
       else res.send(false)
@@ -85,7 +85,7 @@ router.get('/checkClientMandate', rejectUnauthenticated, async (req, res) => {
 // @access  Private
 router.get('/oneClient', rejectUnauthenticated, async (req, res) => {
   try {
-    const activeUser = await User.findById(req.user._id).catch(err => {
+    const activeUser = await User.findOne({_id: req.user._id, deleted: false }).catch(err => {
       //console.log(err)
       res.status(500).send("Couldn't find user in db")
     })
@@ -118,7 +118,7 @@ router.get('/oneClient', rejectUnauthenticated, async (req, res) => {
 // @access  Private
 router.get('/bankFromUser', rejectUnauthenticated, async (req, res) => {
   try {
-    const activeUser = await User.findById(req.user._id).catch(err => {
+    const activeUser = await User.findOne({ _id: req.user._id, deleted: false}).catch(err => {
       console.log(err)
       res.status(500).send("Couldn't find user in db")
     })
@@ -373,7 +373,7 @@ router.post('/addClient', rejectUnauthenticated, async (req, res) => {
     // The clientId will be saved in the database so It can
     // be used to confirm the changes and
     // be used to get the client information later
-    User.findById(req.user._id)
+    User.findOne({ _id: req.user._id, deleted: false})
       .then(user => {
         if (!user) {
           console.log('no user with this id')
@@ -403,7 +403,7 @@ router.post('/completeRedirect/', rejectUnauthenticated, async (req, res) => {
   try {
     const allClients = await initializeGoCardless()
     //get activeUser from database
-    const activeUser = await User.findById(req.user._id).then(user => {
+    const activeUser = await User.findOne({ _id: req.user._id, deleted: false}).then(user => {
       if (!user) {
         // console.log('no user with this id')
         res.status(500).send('no user with this id')
@@ -512,7 +512,7 @@ router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
             // console.log(err)
             res.status(500).send('addr_1')
           } else {
-            const activeUser = await User.findById(req.user._id).catch(err => {
+            const activeUser = await User.findOne({ _id: req.user._id, deleted: false}).catch(err => {
               // console.log(err)
             })
 
@@ -686,7 +686,7 @@ router.post('/collect-custom-payment', rejectUnauthenticated, async (req, res) =
             // console.log(err)
             res.status(500).send('addr_1')
           } else {
-            const activeUser = await User.findById(req.user._id).catch(err => {
+            const activeUser = await User.findOne({ _id: req.user._id, deleted: false}).catch(err => {
               // console.log(err)
             })
 

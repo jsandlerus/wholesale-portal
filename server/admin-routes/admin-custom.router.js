@@ -113,13 +113,13 @@ router.get("/")
 // })
 
 //create
-router.post("/", async (req, res) => {
+router.post("/", rejectNonAdmin, async (req, res) => {
   if (!req.body.user || !req.body.products || !req.body.price) {
     res.status(400).send('missing information needed for custom order')
   }
   try {
     console.log("create req.body: ", req.body)
-    let user = await User.findOne({ _id: req.body.user })
+    let user = await User.findOne({ _id: req.body.user, deleted: false })
     let renamedProducts = JSON.parse(JSON.stringify(req.body.products).split('"name":').join('"product":'));
     let nodemailerProducts = []
     let expectedPrice = 0;
@@ -161,7 +161,7 @@ router.post("/", async (req, res) => {
 })
 
 //delete
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", rejectNonAdmin, async (req, res) => {
   console.log("custom delete hit: ", req.params)
   Custom.updateOne({ id: req.params.id }, { active: false })
     .then(customOrder => {

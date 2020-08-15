@@ -26,7 +26,7 @@ router.get('/user', rejectUnauthenticated, (req, res) => {
 
 router.get('/wishlist', rejectUnauthenticated, async (req, res) => {
   try {
-    let user = await User.findById(req.user._id)
+    let user = await User.findOne({ _id: req.user._id, deleted: false})
     res.send(user.wishlist)
   } catch (error) {
     // console.log(error)
@@ -39,7 +39,7 @@ router.post('/update-wishlist', rejectUnauthenticated, async (req, res) => {
   // console.log('wishlist to update', wishlist)
   try {
     const user = await User.findOneAndUpdate(
-      { _id: req.user._id },
+      { _id: req.user._id, deleted: false },
       { wishlist }
     )
     res.json(user.wishlist)
@@ -80,7 +80,7 @@ router.post('/edit-password', rejectUnauthenticated, async (req, res) => {
       // console.log(oldPass)
       if (await bcrypt.compare(oldPass, req.user.password)) {
         await User.findOneAndUpdate(
-          { _id: req.user._id },
+          { _id: req.user._id, deleted: false },
           { password: newSaltedPass }
         )
           .then(() => {

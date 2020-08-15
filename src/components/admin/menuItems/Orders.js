@@ -33,8 +33,16 @@ import {
   basePath,
   useListContext,
   Toolbar,
-  SaveButton
+  SaveButton,
+  Filter
 } from 'react-admin'
+
+// const OrderFilter = props => (
+//   <Filter {...props}>
+//     <TextInput label="Search by Order ID" source="id" alwaysOn />
+//     <TextInput label="Search by Tracking #" source="tracking.number" alwaysOn />
+//   </Filter>
+// )
 
 export const OrderList = props => (
   <List
@@ -42,8 +50,10 @@ export const OrderList = props => (
     actions={<ListActions />}
     sort={{ field: 'date', order: 'DESC' }}
     bulkActionButtons={false}
+    // filters={<OrderFilter />}
   >
     <Datagrid rowClick='show'>
+    <TextField label='Order ID' source='id' />
       <ReferenceField
         label='User'
         link='show'

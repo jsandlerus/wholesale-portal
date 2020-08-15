@@ -7,7 +7,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 
 router.get('/', rejectUnauthenticated, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id)
+    const user = await User.findOne({ _id: req.user._id, deleted: false})
     if (!user) {
       res.status(404).send('no user')
       return
@@ -54,7 +54,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
     })
 
     const user = await User.findOneAndUpdate(
-      { _id: req.user._id },
+      { _id: req.user._id, deleted: false },
       {
         cart: req.body.cart
       }

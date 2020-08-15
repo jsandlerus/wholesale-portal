@@ -2,7 +2,7 @@
 const rejectUnauthenticated = (req, res, next) => {
 	// check if logged in
 
-	if (req.isAuthenticated()) {
+	if (req.isAuthenticated() && req.user.deleted === false) {
 		// They were authenticated! User may do the next thing
 		// Note! They may not be Authorized to do all things
 		next()
@@ -14,7 +14,7 @@ const rejectUnauthenticated = (req, res, next) => {
 }
 
 const rejectNonAdmin = async (req, res, next) => {
-	if (req.isAuthenticated() && req.user.isAdmin) {
+	if (req.isAuthenticated() && req.user.isAdmin && req.user.deleted === false) {
 		next()
 		return
 	} else {
@@ -25,7 +25,7 @@ const rejectNonAdmin = async (req, res, next) => {
 }
 
 const rejectNonOwner = async (req, res, next) => {
-	if (req.isAuthenticated() && req.user.isOwner) {
+	if (req.isAuthenticated() && req.user.isOwner && req.user.deleted === false) {
 		next()
 		return
 	} else {

@@ -44,12 +44,19 @@ import {
   AutocompleteArrayInput,
   ReferenceInput,
   ReferenceArrayInput,
-  NumberField
+  NumberField,
+  Filter
 } from 'react-admin'
 import { makeStyles } from '@material-ui/core/styles'
 
+const SearchFilter = props => (
+  <Filter {...props}>
+    <TextInput label="Search by Order Title" source="name" alwaysOn />
+  </Filter>
+)
+
 export const CustomList = ({permissions, ...props}) => (
-    <List {...props} actions={< CustomListActions />} bulkActionButtons={false}>
+    <List {...props} actions={< CustomListActions />} bulkActionButtons={false} sort={{ field: 'active', order: 'DESC' }} filters={<SearchFilter />}>
       <Datagrid rowClick='show'>
         <BooleanField label="active" source="active"/>
         <ReferenceField label="Customer" source="user" reference="admin-users">
@@ -67,9 +74,8 @@ export const CustomList = ({permissions, ...props}) => (
           options={{ style: 'currency', currency: 'USD' }}
         />
         <DateField label="Date" source="date"/>
-        {permissions === 'owner' && <DeleteButton label="Deactivate" basePath={props.basePath} record={props.data}/>}
-        {permissions === 'owner' && <EditButton basePath={props.basePath} record={props.data}/>}
         <ShowButton basePath={props.basePath} record={props.data} />
+        <DeleteButton label="Disable" basePath={props.basePath} record={props.data}/>
       </Datagrid>
     </List>
 )
@@ -183,7 +189,7 @@ const CustomListActions = ({ permissions, ...props }) => {
           filterValues,
           context: 'button'
         })}
-      {permissions === 'owner' && <DeleteButton basePath={basePath} />}
+      {permissions === 'owner' && <DeleteButton basePath={basePath} label="Disable" />}
       <CreateButton basePath={basePath} />
       {/* <ExportButton
           disabled={total === 0}

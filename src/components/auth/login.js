@@ -149,7 +149,7 @@ class Login extends React.Component {
               className='full'
               onClick={this.login}
             >
-              LOGIN
+              Login
             </LightGreenButton>
           </form>
           <span className='register_text'>

@@ -80,7 +80,7 @@ router.put('/:id', rejectNonAdmin, async (req, res) => {
   try {
     Order.findById(req.params.id).then(async order => {
       if (order.tracking.number !== req.body.tracking.number) {
-        let user = await User.findOne({ _id: order.user })
+        let user = await User.findOne({ _id: order.user, deleted: false })
         trackingAddedEmail(user, order, req.body.tracking)
       }
     })

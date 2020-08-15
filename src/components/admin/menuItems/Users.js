@@ -90,7 +90,7 @@ export const UserList = ({ permissions, ...props }) => {
       <BooleanField label='Is Admin' source='isAdmin' />
       <DateField label='Created' source='date' />
       <ShowButton basePath={props.basePath} record={props.data} />
-      {permissions === 'owner' && <DeleteButton />}
+      {permissions === 'owner' && <DeleteButton  label="Disable" />}
     </Datagrid>
   </List>
   )
@@ -251,7 +251,7 @@ const UserShowActions = ({ permissions, basePath, data, resource }) => (
   <TopToolbar>
     <EditButton basePath={basePath} record={data} />
     {permissions === 'owner' && (
-      <DeleteButton basePath={basePath} record={data} />
+      <DeleteButton basePath={basePath} record={data}  label="Disable" />
     )}
     <ListButton basePath={basePath} record={data} />
   </TopToolbar>
@@ -260,7 +260,7 @@ const UserEditActions = ({ permissions, basePath, data, resource }) => (
   <TopToolbar>
     <ShowButton basePath={basePath} record={data} />
     {permissions === 'owner' && (
-      <DeleteButton basePath={basePath} record={data} />
+      <DeleteButton basePath={basePath} record={data} label="Disable" />
     )}
     <ListButton basePath={basePath} record={data} />
   </TopToolbar>

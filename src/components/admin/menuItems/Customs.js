@@ -67,7 +67,8 @@ export const CustomList = ({permissions, ...props}) => (
           options={{ style: 'currency', currency: 'USD' }}
         />
         <DateField label="Date" source="date"/>
-        {permissions === 'owner' && <DeleteButton basePath={props.basePath} record={props.data}/>}
+        {permissions === 'owner' && <DeleteButton label="Diactivate" basePath={props.basePath} record={props.data}/>}
+        {permissions === 'owner' && <EditButton basePath={props.basePath} record={props.data}/>}
         <ShowButton basePath={props.basePath} record={props.data} />
       </Datagrid>
     </List>
@@ -107,6 +108,8 @@ export const CustomShow = (props) => (
       </SimpleShowLayout>
   </Show>
 );
+
+
 
 export const CustomCreate = props => (
   <Create {...props}>

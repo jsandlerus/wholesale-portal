@@ -3,9 +3,17 @@ import axios from 'axios'
 import { updateCartServer } from './functions'
 
 const initialUser = {
-  name: '',
-  favorites: [],
+  email: '',
   admin: false
+}
+
+const devURI = (state = '', action) => {
+  switch (action.type) {
+    case 'SET_URI':
+      return action.payload;
+    default:
+      return state;
+  }
 }
 
 const user = (state = initialUser, action) => {
@@ -14,6 +22,8 @@ const user = (state = initialUser, action) => {
       return action.payload
     case 'SET_ADMIN':
       return { ...state, admin: action.payload }
+    case 'UPDATE_EMAIL':
+      return { ...state, email: action.payload }
     default:
       return state
   }
@@ -28,19 +38,22 @@ const loaded = (state = false, action) => {
   }
 }
 
-const favorites = (state = [], action) => {
+const wishlist = (state = [], action) => {
   switch (action.type) {
-    case 'SET_FAVORITES':
+    case 'SET_WISHLIST':
+      // console.log("SET_WISHLIST", action.payload)
       return action.payload
-    case 'ADD_FAVORITE':
+    case 'ADD_WISHLIST':
       const itemExists = state.find(c => c === action.payload)
       if (itemExists) return state
-      axios.post('/auth/updateFavorites', [...state, action.payload])
+      // console.log("STATE:", state)
+      axios.post('/auth/update-wishlist', [...state, action.payload])
       return [...state, action.payload]
-    case 'DELETE_FAVORITE':
+    case 'DELETE_WISHLIST':
       const deleteItemIndex = state.findIndex(c => c === action.payload)
       if (deleteItemIndex !== -1) state.splice(deleteItemIndex, 1)
-      axios.post('/auth/updateFavorites', state)
+      // console.log("STATE:", state)
+      axios.post('/auth/update-wishlist', state)
       return [...state]
     default:
       return state
@@ -55,17 +68,13 @@ const cart = (state = [], action) => {
       updateCartServer([...state, action.payload])
       return [...state, action.payload]
     case 'UPDATE_CART_ITEM':
-      let updateItemIndex = state.findIndex(
-        c => c.product === action.payload.id
-      )
+      let updateItemIndex = state.findIndex(c => c._id === action.payload.id)
       state[updateItemIndex].quantity = action.payload.quantity
       updateCartServer([...state])
       return [...state]
     case 'DELETE_CART_ITEM':
-      let deleteItemIndex = state.findIndex(
-        c => c.product === action.payload.id
-      )
-      state.splice(deleteItemIndex, 1)
+      let deleteItemIndex = state.findIndex(c => c._id === action.payload.id)
+      if (deleteItemIndex !== -1) state.splice(deleteItemIndex, 1)
       updateCartServer([...state])
       return [...state]
     case 'EMPTY_CART':
@@ -130,20 +139,50 @@ const orders = (state = [], action) => {
 const reviews = (state = [], action) => {
   switch (action.type) {
     case 'ADD_REVIEWS':
-      console.log('Adding REVIEWS' + action.payload)
+      // console.log('Adding REVIEWS' + action.payload)
       return action.payload
     default:
       return state
   }
 }
 
+const customOrder = (state = null, action) => {
+  switch (action.type) {
+    case 'GET_CUSTOM':
+      if (action.payload) {
+        return action.payload;
+      }
+      else {
+        return state
+      }
+    case 'EMPTY_CUSTOM':
+      return null
+    default:
+      return state;
+  }
+}
+
+const hasMandate = (state = false, action) => {
+  switch (action.type) {
+    case 'YES_MANDATE':
+      return true
+    case 'NO_MANDATE':
+      return false
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
+  devURI,
   user,
-  favorites,
+  wishlist,
   categories,
   cart,
   products,
   orders,
   reviews,
-  loaded
+  hasMandate,
+  loaded,
+  customOrder
 })

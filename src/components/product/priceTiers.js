@@ -10,7 +10,7 @@ const PriceTierRow = ({ tier, addToCart }) => (
     <td className='table_total'>${tier.price * tier.quantity}</td>
     <td className='table_add_to_cart'>
       <AddShoppingCartIcon
-        onClick={() => addToCart(tier.quantity)}
+        onClick={() => addToCart(tier.quantity, tier.quantity * tier.price)}
         className='table_add_cart_icon'
       />
     </td>
@@ -18,24 +18,24 @@ const PriceTierRow = ({ tier, addToCart }) => (
 )
 
 class PriceTiers extends React.Component {
-  addToCart = quantity => {
+  addToCart = (quantity, total) => {
     Swal.fire({
-      title: `Add ${quantity} items to your cart`,
-      text: 'Are you sure?',
-      icon: 'warning',
+      title: `Add ${quantity} items to your cart?`,
+      text: `total: $${total}`,
+      icon: 'question',
       showCancelButton: true,
-      confirmButtonColor: '#59BA47',
+      background: '#1E1F26',
+      customClass: {
+        confirmButton: 'swal_confirm_button'
+      }
     }).then(res => {
       if (res.value) {
-        let product = this.props.product.product
-        product.quantity = quantity
-        product.product = this.props.product.product._id
-        addQuantityToCart(product)
+        this.props.addToCart(quantity)
       }
     })
   }
 
-  render () {
+  render() {
     const tableRow = this.props.tiers.map((tier, index) => {
       return <PriceTierRow tier={tier} key={index} addToCart={this.addToCart} />
     })

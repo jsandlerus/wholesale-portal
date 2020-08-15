@@ -7,7 +7,8 @@ const ReviewSchema = new Schema({
     ref: "user",
   },
   userName: {
-    type: String
+    type: String,
+    default: "",
   },
   product: {
     type: Schema.Types.ObjectId,
@@ -15,14 +16,20 @@ const ReviewSchema = new Schema({
   },
   review: {
     type: String,
+    default: "",
   },
   date: {
     type: Date,
     default: Date.now,
   },
   stars: {
-    type: Number
-  }
+    type: Number,
+    default: 5,
+  },
+  deleted: {
+    type: Boolean,
+    default: false
+  },
 });
 
 module.exports = Review = mongoose.model("review", ReviewSchema);

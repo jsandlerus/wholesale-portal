@@ -1,7 +1,7 @@
 import store from '../../redux/store'
 
 export const addQuantityToCart = product => {
-  console.log(product);
+  // console.log(store.getState().reducer);
   let productInCart = store
     .getState()
     .reducer.cart.find(c => c.product === product._id)
@@ -12,7 +12,8 @@ export const addQuantityToCart = product => {
       type: 'UPDATE_CART_ITEM',
       payload: {
         id: product._id,
-        quantity: newQuantity
+        quantity: newQuantity,
+        name: product.name
       }
     })
   } else {

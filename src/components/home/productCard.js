@@ -44,7 +44,7 @@ class ProductCard extends React.Component {
           </span>{' '}
           |
           <span>
-            QT
+            CT
             <br />
             <sub>{units}</sub>
           </span>
@@ -55,7 +55,7 @@ class ProductCard extends React.Component {
           className='add_to_cart_button'
           onClick={this.addToCart}
         >
-          VIEW ITEM : ${this.props.product.price}
+          VIEW ITEM : ${this.props.product.price.toFixed(2)}
         </GreenButton>
       </div>
       </div>

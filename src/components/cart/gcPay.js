@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 })
 
 class GCPay extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       loading: false,
@@ -41,18 +41,19 @@ class GCPay extends React.Component {
         state: '',
         invalidAddr: '',
         payment: ''
-      }
+      },
+      redirect: 'buy'
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({
       loading: true
     })
     axios
       .get('/api/gc/oneClient')
       .then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         this.setState({
           loading: false,
           ClientFirstName: res.data.given_name,
@@ -65,15 +66,51 @@ class GCPay extends React.Component {
         })
       })
       .catch(err => {
-        console.log(err)
+        // console.log(err)
         this.setState({
           loading: false
         })
       })
   }
 
-  collectPayment = async e => {
+  alert_make_payment = async e => {
     e.preventDefault()
+    Swal.fire({
+      title: '<span class="swal_title">Confirm Order?',
+      showCancelButton: true,
+      confirmButtonColor: '#59BA47',
+      confirmButtonText: 'Yes',
+      background: '#1E1F26'
+    }).then(res => {
+      if (res.value) {
+        this.collectPayment()
+      }
+    })
+  }
+
+  alert_change_payment = async e => {
+    e.preventDefault()
+    Swal.fire({
+      title: '<span class="swal_title">Change Payment Method?',
+      showCancelButton: true,
+      confirmButtonColor: '#59BA47',
+      confirmButtonText: 'Yes',
+      background: '#1E1F26'
+    }).then(res => {
+      if (res.value) {
+        axios
+          .post('/api/gc/addClient', this.state)
+          .then(res => {
+            window.open(res.data.url, '_self')
+          })
+          .catch(err => {
+            // console.log(err)
+          })
+      }
+    })
+  }
+
+  collectPayment = async e => {
     this.setState({
       loading: true
     })
@@ -89,49 +126,73 @@ class GCPay extends React.Component {
       state: this.state.ClientState,
       postal_code: this.state.ClientPostalCode
     }
-    axios
-      .post('/api/gc/collectPayment/', {
-        delivery: delivery
+    axios.post('/api/gc/collect-payment/', {
+      delivery: delivery
+    }).then(res => {
+      this.setState({
+        loading: false,
+        paymentDone: true
       })
-      .then(res => {
-        this.setState({
-          loading: false,
-          paymentDone: true
-        })
 
-        //Clean the cart
-        console.log('collecting payment')
-        store.dispatch({ type: 'EMPTY_CART', payload: [] })
+      //add order to redux state orders
+      let allOrders = this.props.state.orders;
+      allOrders.push(res.data.order);
+      // console.log(allOrders);
+      store.dispatch({ type: 'ADD_ORDERS', payload: allOrders })
 
-        //Redirect to order page where all the information + receipt are available
-        const url = '/order/' + res.data.order._id
-        this.props.history.push({
-          pathname: url,
-          state: {
-            payment: res.data.payment,
-            order: res.data.order
-          }
-        })
-      })
-      .catch(err => {
-        if (err.response.data.errors) {
-          Swal.fire('ERROR:', err.response.data.errors, 'error')
-          this.setState({
-            err: err.response.data.errors,
-            loading: false
-          })
+      //Clean the cart
+      // console.log('collecting payment')
+      store.dispatch({ type: 'EMPTY_CART', payload: [] })
+
+      //Redirect to order page where all the information + receipt are available
+      const url = '/order/' + res.data.order._id
+      this.props.history.push({
+        pathname: url,
+        state: {
+          payment: res.data.payment,
+          order: res.data.order
         }
       })
+    }).catch(err => {
+      // console.log("error!!")
+      if (err.response && err.response.data.errors) {
+        this.setState({
+          err: err.response.data.errors,
+        })
+      } else if (err.response && err.response.data === "addr_1") {
+        Swal.fire({
+          text: 'ERROR: ' + "Something is wrong with your address! Check your ZIP code, address line 1, city and state!",
+          background: '#1E1F26',
+          customClass: {
+            confirmButton: 'swal_confirm_button',
+            content: 'swal_text',
+            title: 'swal_text'
+          }
+        })
+      } else if (err.response) {
+        Swal.fire({
+          text: 'ERROR:'+ err.response.data+ 'error',
+          background: '#1E1F26',
+          customClass: {
+            confirmButton: 'swal_confirm_button',
+            content: 'swal_text',
+            title: 'swal_text'
+          }
+        })
+      }
+      this.setState({
+        loading: false
+      })
+    })
   }
 
   onChange = e => {
-    //check city and state for postal code
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
-  render () {
+  render() {
     if (this.state.loading) {
       return <img src={loading} alt='loading' />
     } else if (!this.state.paymentDone) {
@@ -176,7 +237,7 @@ class GCPay extends React.Component {
               value={this.state.ClientAddr1}
               type='text'
               changeField={this.onChange}
-              placeholder=''
+              placeholder='Address Number and Street'
               error={this.state.err.ClientAddr1}
             />
             <InputField
@@ -186,7 +247,7 @@ class GCPay extends React.Component {
               value={this.state.ClientAddr2}
               type='text'
               changeField={this.onChange}
-              placeholder=''
+              placeholder='Apt. Number or PO Box Number'
             />
             <InputField
               widthCSS='gc_input'
@@ -210,13 +271,19 @@ class GCPay extends React.Component {
             />
           </form>
           <div className='cart_button_area'>
-            <span className='err'>{this.state.err.payment}</span>
             <GreenButton
               variant='contained'
-              className='checkout_button'
-              onClick={this.collectPayment}
+              className='gc_checkout_button'
+              onClick={e => this.alert_change_payment(e)}
             >
-              CHECK OUT: ${this.props.total}
+              Change Payment Method
+            </GreenButton>
+            <GreenButton
+              variant='contained'
+              className='gc_checkout_button'
+              onClick={e => this.alert_make_payment(e)}
+            >
+              Confirm Order: ${this.props.total.toFixed(2)}
             </GreenButton>
           </div>
         </div>

@@ -4,16 +4,20 @@ const Schema = mongoose.Schema
 const ProductSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    default: ""
   },
   description: {
-    type: String
+    type: String,
+    default: ""
   },
   category: {
-    type: String
+    type: String,
+    default: ""
   },
   price: {
-    type: Number
+    type: Number,
+    default: 100,
   },
   priceTiers: [
     {
@@ -29,34 +33,42 @@ const ProductSchema = new Schema({
   metaData: {
     cbd: {
       unit: {
-        type: String
+        type: String,
+        default: ""
       },
       quantity: {
-        type: Number
+        type: Number,
+        default: 0
       }
     },
     thc: {
       unit: {
-        type: String
+        type: String,
+        default: ""
       },
       quantity: {
-        type: Number
+        type: Number,
+        default: 0
       }
     },
     units: {
       unit: {
-        type: String
+        type: String,
+        default: ""
       },
       quantity: {
-        type: Number
+        type: Number,
+        default: 0
       }
     },
     weight: {
       unit: {
-        type: String
+        type: String,
+        default: ""
       },
       quantity: {
-        type: Number
+        type: Number,
+        default : 0
       }
     }
   },
@@ -76,6 +88,10 @@ const ProductSchema = new Schema({
   draft: {
     type: Boolean,
     default: true
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   },
   date: {
     type: Date,

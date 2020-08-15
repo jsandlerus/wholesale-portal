@@ -10,16 +10,14 @@ import Account from "./components/account/account";
 import Cart from "./components/cart/cart";
 import Settings from "./components/settings/settings";
 import Product from "./components/product/product";
-import Order from "./components/orderHistory/order"
-import OrderHistory from "./components/orderHistory/orderHistory";
-import Cookies from 'universal-cookie'
+import Order from "./components/account/orderHistory/order"
 import AdminError404 from './components/error/adminError404'
 import GoCardless from './components/cart/goCardless'
+import CustomCheckout from './components/cart/custom/goCardless'
 import Admin from './components/admin/Setup'
 import { connect } from "react-redux";
 
 
-const cookie = new Cookies()
 
 const mapStateToProps = state => ({
   state: state.reducer
@@ -41,11 +39,11 @@ class App extends React.Component {
               <Route path='/account' component={Account} />
               <Route path='/cart' component={Cart} />
               <Route path='/buy' component={GoCardless} />
+              <Route path='/custom-buy' component={CustomCheckout} />
               <Route path='/settings' component={Settings} />
               <Route path='/logout' component={Logout} />
               <Route path='/product/:productID' component={Product} />
               <Route path='/order/:orderID' component={Order} />
-              <Route path='/orderHistory' component={OrderHistory} />
               <Route path='/*' component={ErrorPage404} />
             </Switch>
           </div>
@@ -73,7 +71,7 @@ class App extends React.Component {
             path='/'
             render={props => <Admin history={this.props.history} {...props} />}
           />
-          <Route exact path='/*' component={AdminError404} >
+          <Route exact path='/*' >
             <Redirect to="/" />
           </Route>
         </Switch>
@@ -81,8 +79,8 @@ class App extends React.Component {
     )
 
     let routes = loggedOutRoutes
-    if (this.props.state.user.name) routes = loggedInRoutes
-    if (cookie.get('sig')) routes = adminRoutes
+    if (this.props.state.user.email) routes = loggedInRoutes
+    if (localStorage.getItem('sig')) routes = adminRoutes
 
     return (
       <div className='App'>

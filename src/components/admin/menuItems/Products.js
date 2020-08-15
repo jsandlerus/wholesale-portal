@@ -15,6 +15,7 @@ import {
   DisabledInput,
   BooleanInput,
   BooleanField,
+  ChipField,
   ImageInput,
   TextInput,
   DateInput,
@@ -40,10 +41,69 @@ import {
   useListContext,
   sanitizeListRestProps,
   AutocompleteInput,
-  NumberField
+  NumberField,
+  Toolbar,
+  ReferenceField,
+  Filter,
+  SaveButton
 } from 'react-admin'
 import { makeStyles } from '@material-ui/core/styles'
 
+export const ProductList = ({ permissions, ...props }) => (
+  <List
+    filters={<ProductFilter />}
+    {...props}
+    sort={{ field: 'date', order: 'DESC' }}
+    bulkActionButtons={false}
+    actions={<ListActions />}
+  >
+    <Datagrid actions={<ListActions />} rowClick='show'>
+      <TextField label='Product' source='name' />
+      <ChipField label='Category' source='category' />
+      <NumberField
+        label='Price'
+        source='price'
+        options={{ style: 'currency', currency: 'USD' }}
+      />
+      <BooleanField label='Is Draft' source='draft' />
+      <DateField label='Created' source='date' />
+      <ShowButton basePath={props.basePath} record={props.data} />
+      {permissions === 'owner' && <DeleteButton />}
+    </Datagrid>
+  </List>
+)
+
+const ListActions = props => {
+  const { className, exporter, filters, maxResults, ...rest } = props
+  const {
+    basePath,
+    resource,
+    showFilter,
+    displayedFilters,
+    filterValues
+  } = useListContext()
+  return (
+    <TopToolbar className={className} {...sanitizeListRestProps(rest)}>
+      {filters &&
+        React.cloneElement(filters, {
+          resource,
+          showFilter,
+          displayedFilters,
+          filterValues,
+          context: 'button'
+        })}
+      <CreateButton basePath={basePath} />
+    </TopToolbar>
+  )
+}
+
+const ProductFilter = props => {
+  return (
+    <Filter {...props}>
+      <BooleanInput source='deleted' label='Show Deleted' />
+    </Filter>
+  )
+}
 
 export const ProductShow = props => {
   return (
@@ -58,7 +118,11 @@ export const ProductShow = props => {
           <Datagrid>
             <TextField label='ID' source='id' />
             <TextField label='Quantity' source='quantity' />
-            <NumberField label='Price per unit' options={{ style: 'currency', currency: 'USD' }} source='price' />
+            <NumberField
+              label='Price per unit'
+              options={{ style: 'currency', currency: 'USD' }}
+              source='price'
+            />
           </Datagrid>
         </ArrayField>
         <FunctionField
@@ -98,31 +162,25 @@ export const ProductShow = props => {
           source='id'
           reference='admin-reviews'
           target='user'
-          link="show"
+          link='show'
         >
-          <Datagrid rowClick="show">
-            <TextField label="Stars" source='stars'/>
-            <TextField label="Date" source="date"/>
-            <TextField label="User" source="user"/>
+          <Datagrid rowClick='show'>
+            <ReferenceField
+              link='show'
+              label='User'
+              reference='admin-users'
+              source='user'
+            >
+              <TextField source='name' />
+            </ReferenceField>
+            <TextField label='Stars' source='stars' />
+            <DateField label='Date' source='date' />
           </Datagrid>
         </ReferenceManyField>
       </SimpleShowLayout>
     </Show>
   )
 }
-
-export const ProductList = props => (
-  <List {...props}>
-    <Datagrid actions={<ListActions />} rowClick='show'>
-      <BooleanField label="Draft" source="draft"/>
-      <TextField label='Name' source='name' />
-      <TextField label='Category' source='category' />
-      <NumberField label='Price' source='price' options={{ style: 'currency', currency: 'USD' }}/>
-      <ShowButton basePath={props.basePath} record={props.data} />
-      <DeleteButton />
-    </Datagrid>
-  </List>
-)
 
 const productCategories = [
   { id: 'flower', name: 'Flower' },
@@ -132,6 +190,20 @@ const productCategories = [
   { id: 'pet_products', name: 'Pet Products' },
   { id: 'accessories', name: 'Accessories' }
 ]
+
+const dropZoneOptions = {
+  maxFiles: 1
+  // accept: function(file, done) {
+  //   alert("uploaded");
+  //   done();
+  // },
+  // init: function() {
+  //   this.on("maxfilesexceeded", function(file){
+  //     alert("max reached");
+
+  //   })
+  // }
+}
 
 export const ProductCreate = props => {
   return (
@@ -148,11 +220,21 @@ export const ProductCreate = props => {
           label='Description'
           source='description'
         />
-        <NumberInput label='Base Price Per Unit' source='price' />
+        <NumberInput
+          label='Base Price Per Unit'
+          source='price'
+          min='0'
+          max='5000'
+        />
         <ArrayInput label='Price Tiers' source='priceTiers'>
           <SimpleFormIterator>
             <NumberInput label='Quantity' source='quantity' />
-            <NumberInput label='Price per unit (USD)' source='price' />
+            <NumberInput
+              label='Price per unit (USD)'
+              source='price'
+              min='0'
+              max='5000'
+            />
           </SimpleFormIterator>
         </ArrayInput>
         <div className='product_create_metaData'>
@@ -208,14 +290,19 @@ export const ProductCreate = props => {
           label='Product Images'
           accept='image/*'
           multiple='true'
+          options={dropZoneOptions}
         >
           <ImageField source='url' title='title' />
         </ImageInput>
         <p>
-          Please upload 1-5 product images. The first one uploaded will be the
-          primary image
+          Please upload 1-4 product images. The first one uploaded will be the
+          primary image.
         </p>
-        <BooleanInput label='Save as Draft' source='draft' />
+        <BooleanInput
+          label='Draft (drafts are not displayed to users)'
+          source='draft'
+          initialValue={true}
+        />
       </SimpleForm>
     </Create>
   )
@@ -229,22 +316,34 @@ export const ProductEdit = props => {
       actions={<ProductEditActions />}
       {...props}
     >
-      <SimpleForm>
+      <SimpleForm toolbar={<ProductEditToolbar />}>
         <TextInput disabled label='ID' source='id' />
-        <BooleanInput label="Draft (drafts are not displayed to users)" source="draft"/>
+        <BooleanInput
+          label='Draft (drafts are not displayed to users)'
+          source='draft'
+        />
         <AutocompleteInput
-          lablel='Category'
+          label='Category'
           source='category'
           choices={productCategories}
         />
         <TextInput label='Product Name' source='name' />
         <TextInput multiline label='Description' source='description' />
-        <NumberInput label='Base Price Per Unit' source='price' />
-
+        <NumberInput
+          label='Base Price Per Unit'
+          source='price'
+          min='0'
+          max='5000'
+        />
         <ArrayInput label='Price Tiers' source='priceTiers'>
           <SimpleFormIterator>
             <NumberInput label='Quantity' source='quantity' />
-            <NumberInput label='Price per unit (USD)' source='price' />
+            <NumberInput
+              label='Price per unit (USD)'
+              source='price'
+              min='0'
+              max='5000'
+            />
           </SimpleFormIterator>
         </ArrayInput>
         <div className='product_create_metaData'>
@@ -313,10 +412,12 @@ const ProductTitle = ({ record }) => {
   return <span>Edit Product: {record ? `"${record.name}"` : ''}</span>
 }
 
-const ProductShowActions = ({ basePath, data, resource }) => (
+const ProductShowActions = ({ permissions, basePath, data, resource }) => (
   <TopToolbar>
     <EditButton label='Edit' basePath={basePath} record={data} />
-    <DeleteButton basePath={basePath} record={data} />
+    {permissions === 'owner' && (
+      <DeleteButton basePath={basePath} record={data} />
+    )}
     <ListButton basePath={basePath} record={data} />
     {/* Add your custom actions */}
   </TopToolbar>
@@ -330,35 +431,8 @@ const ProductEditActions = ({ basePath, data, resource }) => (
   </TopToolbar>
 )
 
-const ListActions = props => {
-  const { className, exporter, filters, maxResults, ...rest } = props
-  const {
-    resource,
-    displayedFilters,
-    filterValues,
-    basePath,
-    showFilter
-  } = useListContext()
-  return (
-    <TopToolbar className={className} {...sanitizeListRestProps(rest)}>
-      {filters &&
-        cloneElement(filters, {
-          resource,
-          showFilter,
-          displayedFilters,
-          filterValues,
-          context: 'button'
-        })}
-      <DeleteButton basePath={basePath} />
-      <CreateButton basePath={basePath} />
-      {/* <ExportButton
-        disabled={total === 0}
-        resource={resource}
-        sort={currentSort}
-        filterValues={filterValues}
-        maxResults={maxResults}
-      /> */}
-      {/* Add your custom actions */}
-    </TopToolbar>
-  )
-}
+const ProductEditToolbar = props => (
+  <Toolbar {...props}>
+    <SaveButton />
+  </Toolbar>
+)

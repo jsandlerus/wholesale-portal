@@ -17,7 +17,8 @@ class GCFillInfo extends React.Component {
       newClientEmail: '',
       newClientAddr: '',
       newClientCity: '',
-      newClientPostalCode: ''
+      newClientPostalCode: '',
+      redirect: 'buy',
     }
   }
 
@@ -26,14 +27,10 @@ class GCFillInfo extends React.Component {
     axios
       .post('/api/gc/addClient', this.state)
       .then(res => {
-        console.log(res.data)
-        /*set token to finish payment*/
-        const token = res.data.token
-        localStorage.setItem('gc', token)
         window.open(res.data.url, '_self')
       })
       .catch(err => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
@@ -105,7 +102,7 @@ class GCFillInfo extends React.Component {
         </form>
           <GreenButton
             variant='contained'
-            className='checkout_button'
+            className='gc_checkout_button'
             onClick={this.addClients}
           >
             connect bank

@@ -5,9 +5,9 @@ import dataProvider from './dataProvider'
 const myDataProvider = {
   ...dataProvider,
   create: (resource, params) => {
-    console.log('create intercept')
+    // console.log('create intercept')
     if (resource !== 'admin-products' || !params.data.imageData) {
-      console.log('no images')
+      // console.log('no images')
       params.data.imageData = []
       return dataProvider.create(resource, params)
     }
@@ -54,10 +54,26 @@ const myDataProvider = {
           ...params,
           data: {
             ...params.data,
-            imageData: [...transformedNewImages, ...formerImages]
+            imageData: [...formerImages, ...transformedNewImages]
           }
         })
       )
+  },
+
+  getList: (resource, params) => {
+    if (resource === 'admin-commissions') {
+      return dataProvider.getList('admin-orders', params)
+    } else {
+      return dataProvider.getList(resource, params)
+    }
+  },
+  getOne: (resource, params) => {
+    if (resource === 'admin-commissions') {
+      return dataProvider.getOne('admin-orders', params)
+    } else {
+      return dataProvider.getOne
+      (resource, params)
+    }
   }
 }
 

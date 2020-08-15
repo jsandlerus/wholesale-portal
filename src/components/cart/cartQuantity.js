@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 })
 
 class CartQuantity extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       quantity: 0,
@@ -15,7 +15,7 @@ class CartQuantity extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({
       quantity: this.props.productInfo.quantity
     })
@@ -32,21 +32,46 @@ class CartQuantity extends React.Component {
     )
   }
 
-  reduceQuantity = event => {
-    this.setState(
-      {
-        quantity: this.state.quantity - 1
-      },
-      () => {
-        this.dispatchQuantity()
-      }
-    )
+  reduceQuantity = async event => {
+    if (this.state.quantity === 1) {
+      const res = await this.props.deleteProduct()
+      if (!res)
+        this.setState(
+          {
+            quantity: 1
+          },
+          () => {
+            this.dispatchQuantity()
+          })
+    }
+    else {
+      this.setState(
+        {
+          quantity: this.state.quantity - 1
+        },
+        () => {
+          this.dispatchQuantity()
+        }
+      )
+    }
   }
 
-  inputQuantity = event => {
-    this.setState({
-      quantity: parseInt(event.target.value, 10)
-    })
+  inputQuantity = async event => {
+    if (parseInt(event.target.value, 10) <= 0) {
+      const res = await this.props.deleteProduct()
+      if (!res) {
+        this.setState({
+          quantity: 1
+        }, () => {
+          this.dispatchQuantity()
+        })
+      }
+    }
+    else {
+      this.setState({
+        quantity: parseInt(event.target.value, 10)
+      })
+    }
   }
 
   onBlur = () => {
@@ -54,17 +79,17 @@ class CartQuantity extends React.Component {
   }
 
   dispatchQuantity = () => {
-    console.log(this.state)
     this.props.dispatch({
       type: 'UPDATE_CART_ITEM',
       payload: {
         id: this.props.productInfo.product,
-        quantity: this.state.quantity
+        quantity: this.state.quantity,
+        name: this.props.productInfo.name
       }
     })
   }
 
-  render () {
+  render() {
     const quantity = this.state.quantity ? this.state.quantity : ''
     return (
       <div className='cart_quantity'>

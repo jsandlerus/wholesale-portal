@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { GreenButton } from '../reuseable/materialButtons'
 import ReviewsCard from '../reuseable/reviewsCard'
 import UserReviews from '../reuseable/userReviews'
 
@@ -25,7 +24,7 @@ class HomeUserReviews extends React.Component {
     }
     if (reviews[0]) {
       return reviews.map(one => {
-        return <ReviewsCard review={one} />
+        return <ReviewsCard review={one} key={one._id}/>
       })
     }
   }

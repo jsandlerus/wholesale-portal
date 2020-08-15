@@ -2,10 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
-
 import loading from '../../resources/images/loadingBig.svg'
 import GCFillInfo from './gcFillInfo'
 import GCPay from './gcPay'
+import GCProductCard from "./gcProductCard";
+import GCPaymentInfo from "./gcPaymentInfo";
+import store from "../../redux/store";
+import Swal from "sweetalert2";
+import {getPriceByQuantity} from "../reuseable/getPriceByQuantity";
 
 const mapStateToProps = state => ({
   state: state.reducer
@@ -14,114 +18,81 @@ const mapStateToProps = state => ({
 class GoCardless extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      loading: false,
-      hasClientID: false,
-      hasMandate: false
-    }
-  }
-
-  componentDidMount () {
-    this.setState({
-      loading: true
-    })
-    this.checkClientCGID()
-    this.checkClientMandate()
-  }
-
-  checkClientCGID = () => {
-    console.log('checking client id')
-    axios
-      .get('/api/gc/checkClientID')
-      .then(res => {
-        if (res.data) {
-          console.log('got client id')
-          this.setState({
-            hasClientID: true,
-            loading: false
-          })
-        } else {
-          this.setState({
-            loading: false
-          })
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-
-  checkClientMandate = () => {
-    axios
-      .get('/api/gc/checkClientMandate')
-      .then(res => {
-        console.log("got client mandate!")
-        if (res.data) {
-          this.setState({
-            hasMandate: true,
-            loading: false
-          })
-        } else {
-          this.setState({
-            loading: false
-          })
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    this.confirmAccount()
   }
 
   confirmAccount = () => {
     let params = new URLSearchParams(window.location.href)
-    if (params.has('https://wholesale-portal-testing.herokuapp.com/cart?redirect_flow_id')) {
-      this.setState({
-        loading: true
-      })
-      const id = localStorage.getItem('gc')
-      console.log(id)
+
+    const url = `${this.props.state.devURI}/buy?redirect_flow_id`
+    if (params.has(url)) {
+      const redirect = params.get(url)
+      this.props.history.replace('/buy')
       axios
-        .post('/api/gc/completeRedirect', { id: id })
+        .post('/api/gc/completeRedirect', {redirect: redirect})
         .then(res => {
-          this.setState({
-            hasMandate: true,
-            hasClientID: true,
-            loading: false
+          store.dispatch({
+            type: 'YES_MANDATE'
           })
-          this.props.history.push('/cart')
-          localStorage.removeItem('gc')
+          Swal.fire({
+            title: '<span class="swal_title"> SUCCESS',
+            text: "Your payment method has been updated!",
+            icon: 'success',
+            background: '#1E1F26',
+            customClass: {
+              confirmButton: 'swal_confirm_button'
+            }
+          })
         })
         .catch(err => {
-          console.log(err)
-          this.setState({
-            loading: false
+          Swal.fire({
+            title: '<span class="swal_title"> ERROR',
+            text: "Something went wrong trying to change you payment method, please try again!",
+            icon: 'error',
+            background: '#1E1F26',
+            customClass: {
+              confirmButton: 'swal_confirm_button'
+            }
           })
-          this.props.history.push('/cart')
         })
-    } else {
-      this.setState({
-        hasClientID: false,
-        loading: false
-      })
-    }
+     }
   }
 
   render () {
+    let total = 0;
+    const products = this.props.state.cart.map((cartProduct, index) => {
+      //only give price to product available
+      if (!cartProduct.deleted) {
+        const productTotal = getPriceByQuantity(
+            cartProduct.priceTiers,
+            cartProduct.quantity,
+            cartProduct.price
+        )
+        total += productTotal
+        return {
+          product: cartProduct,
+          price: productTotal,
+          quantity: cartProduct.quantity
+        }
+      }})
+      total.toFixed(2)
+
+    const productsList = products.map((product, index) => {
+            return <GCProductCard product={product} key={index}/>
+        })
     return (
       <div className='buy'>
         {(() => {
-          if (this.state.loading) {
-            return <img src={loading} />
-          } else if (!this.state.hasClientID) {
-            return <GCFillInfo total={this.props.total} />
-          } else if (!this.state.hasMandate) {
-            {
-              this.confirmAccount()
-            }
+          if (!this.props.state.hasMandate) {
+            return <GCFillInfo total={total}/>
           } else {
-            return <GCPay total={this.props.total} />
-           }
+            return <GCPay total={total}/>
+         }
         })()}
+        <div className="cart_products_payment">
+        {this.props.state.hasMandate ? <GCPaymentInfo />: null}
+          {productsList}
+        </div>
       </div>
     )
   }

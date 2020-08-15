@@ -276,14 +276,14 @@ class GCPay extends React.Component {
               className='gc_checkout_button'
               onClick={e => this.alert_change_payment(e)}
             >
-              CHANGE PAYMENT METHOD
+              Change Payment Method
             </GreenButton>
             <GreenButton
               variant='contained'
               className='gc_checkout_button'
               onClick={e => this.alert_make_payment(e)}
             >
-              CONFIRM ORDER: ${this.props.total.toFixed(2)}
+              Confirm Order: ${this.props.total.toFixed(2)}
             </GreenButton>
           </div>
         </div>
@@ -291,7 +291,7 @@ class GCPay extends React.Component {
     } else {
       return (
         <div>
-          <h1>PAYMENT DONE!</h1>
+          <h1>Payment Submitted!</h1>
         </div>
       )
     }

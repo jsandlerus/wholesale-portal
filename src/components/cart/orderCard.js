@@ -77,7 +77,7 @@ class OrderCard extends React.Component {
             />
             <b>price: ${this.props.total.toFixed(2)}</b>
             <div className='remove_from_cart_text' onClick={this.deleteProduct}>
-              REMOVE FROM CART
+              Remove From Cart
             </div>
           </div>
         </div>

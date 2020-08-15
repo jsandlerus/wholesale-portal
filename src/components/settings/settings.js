@@ -343,7 +343,7 @@ class Settings extends React.Component {
                     className='full settings_button'
                     onClick={this.editPass}
                   >
-                    SAVE
+                    Save
                   </GreenButton>
                 </div>
               )}

@@ -145,7 +145,7 @@ export const UserShow = props => {
         >
           <TextField label='Name' source='name' />
         </ReferenceField>
-        <TextField label='Payment confirmed' source='paymentVerified' />
+        {/* <TextField label='Payment confirmed' source='paymentVerified' /> */}
         <ArrayField label='Wishlist' source='wishlist'>
           <ReferenceField label='Product' reference='admin-products'>
             <TextField label='Product' source='name' />

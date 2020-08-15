@@ -159,7 +159,22 @@ export const UserShow = props => {
         >
           <Datagrid rowClick='show'>
             <TextField label='Order #' source='id' link='show' />
-            <TextField label='Total' source='total' />
+            <NumberField label='Total' source='total' options={{ style: 'currency', currency: 'USD' }} />
+            <DateField label='Date' source='date' />
+            <TextField label='Product Purchased' source='products.length' />
+          </Datagrid>
+        </ReferenceManyField>
+        <ReferenceManyField 
+          label="Custom orders made for this user"
+          source="id"
+          target="user"
+          reference="admin-customs"
+          link="show"
+        >
+          <Datagrid rowClick='show'>
+            <TextField label='Order #' source='id' link='show' />
+            <NumberField label="Was" source="standardPrice" options={{style: 'currency', currency: 'USD'}}/>
+            <NumberField label='Is' source='price' options={{ style: 'currency', currency: 'USD' }}/>
             <DateField label='Date' source='date' />
             <TextField label='Product Purchased' source='products.length' />
           </Datagrid>

@@ -291,7 +291,7 @@ class GCPay extends React.Component {
     } else {
       return (
         <div>
-          <h1>Payment Done!</h1>
+          <h1>Payment Submitted!</h1>
         </div>
       )
     }

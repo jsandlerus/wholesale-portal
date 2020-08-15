@@ -33,9 +33,9 @@ class UnavailableOrderCard extends React.Component {
           </div>
             <div className='unavailable_order_card_remove_area'>
               <div className='unavailable_order_card_remove_area_text'>
-                PRODUCT NO LONGER AVAILABLE
+                Product No Longer Available
               </div>
-              <div className='unavailable_order_card_remove' onClick={this.deleteProduct}>REMOVE FROM CART</div>
+              <div className='unavailable_order_card_remove' onClick={this.deleteProduct}>Remove From Cart</div>
             </div>
         </div>
       </div>

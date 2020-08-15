@@ -14,16 +14,19 @@ const CustomOrderSchema = new Schema({
   },
   name: {
     type: String,
-    required: true
+    default: ""
   },
   description: {
-    type: String
+    type: String,
+    default: ""
   },
   standardPrice: {
-    type: Number
+    type: Number,
+    default: 0
   },
   price: {
-    type: Number
+    type: Number,
+    default: 0
   },
   products: [
     {

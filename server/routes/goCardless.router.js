@@ -356,7 +356,7 @@ router.post('/addClient', rejectUnauthenticated, async (req, res) => {
     const allClients = await initializeGoCardless()
 
     const redirectFlow = await allClients.redirectFlows.create({
-      description: 'Cider Barrels',
+      description: 'CBD Wholesale',
       session_token: req.user._id.toString(),
       success_redirect_url: success_redirect_url,
 

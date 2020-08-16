@@ -75,9 +75,11 @@ class Settings extends React.Component {
             })
         })
         .catch(err => {
+          console.log(err);
+          
           Swal.fire({
             title: '<span class="swal_title"> ERROR',
-            text: "Something went wrong trying to change you payment method, please try again!",
+            text: "Something went wrong trying to change your payment method, please try again!",
             icon: 'error',
             background: '#1E1F26',
             customClass: {

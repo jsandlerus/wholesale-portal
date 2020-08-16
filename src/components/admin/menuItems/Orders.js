@@ -1,4 +1,6 @@
 import * as React from 'react'
+import Input from '@material-ui/core/Input';
+
 import {
   CreateButton,
   ArrayField,
@@ -41,14 +43,14 @@ import {
 
 export const OrderList = props => (
   <List
+    filters={<OrderFilter />}
     {...props}
-    // filters={<OrderFilter />}
     actions={<ListActions />}
     sort={{ field: 'date', order: 'DESC' }}
     bulkActionButtons={false}
   >
     <Datagrid rowClick='show'>
-    <TextField label='Order ID' source='id' />
+      <TextField label='Order ID' source='id' />
       <ReferenceField
         label='User'
         link='show'
@@ -98,12 +100,26 @@ const ListActions = props => {
   )
 }
 
-// const OrderFilter = props => (
-//   <Filter {...props}>
-//     <TextInput label="Search by Order ID" source="id" alwaysOn />
-//     <TextInput label="Search by Tracking #" source="tracking.number" alwaysOn />
-//   </Filter>
-// )
+const OrderFilter = props => {
+  let state = ""
+
+  function change(event) {
+    state = event.target.value
+  }
+
+  function submit() {
+    window.location.href = `/admin-orders/${state}/show`
+  }
+
+  return (
+    <Filter {...props}>
+      <form onSubmit={submit} alwaysOn>
+        <Input type="text" onChange={change} alwaysOn placeholder="Search By Order ID"/>
+      </form>
+      {/* <TextInput label="Search by Tracking #" source="tracking.number" alwaysOn /> */}
+    </Filter>
+  )
+}
 
 export const OrderShow = props => (
   <Show actions={<OrderShowActions />} {...props}>

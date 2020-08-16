@@ -43,6 +43,7 @@ const AdminSetup = () => (
     })}
   >
     <Admin
+      style={{backgroundColor: 'green'}}
       authProvider={authProvider}
       dataProvider={myDataProvider}
       history={history}

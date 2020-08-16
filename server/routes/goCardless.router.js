@@ -86,10 +86,15 @@ router.get('/checkClientMandate', rejectUnauthenticated, async (req, res) => {
 router.get('/oneClient', rejectUnauthenticated, async (req, res) => {
   try {
     const activeUser = await User.findOne({_id: req.user._id, deleted: false }).catch(err => {
-      //console.log(err)
+      console.log(err)
       res.status(500).send("Couldn't find user in db")
     })
-
+    console.log(activeUser);
+    if (!activeUser.goCardlessID) {
+      res.status(404).send('no go cardless id')
+      return
+    }
+    
     const allClients = await gocardless(
       process.env.GC_LIVE_TOKEN,
       // Change this to constants.Environments.Live when you're ready to go live

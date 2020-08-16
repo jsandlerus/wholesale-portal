@@ -16,7 +16,7 @@ class Account extends React.Component {
     let wishlistProductList = this.props.state.wishlist.map(wishlistItem => {
       let productInfo = this.props.state.products.products.find(product => {
         if (product._id === wishlistItem && wishlistItem !== null) {
-          // console.log("product", product);
+          console.log("product", product);
           return (product);
         }
       })

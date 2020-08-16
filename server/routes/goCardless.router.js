@@ -41,7 +41,7 @@ router.get('/checkClientID', rejectUnauthenticated, async (req, res) => {
       else res.send(false)
     })
     .catch(err => {
-      // console.log(err)
+      console.log(err)
       res.status(500).send('error getting client ID')
     })
 })
@@ -56,7 +56,7 @@ router.get('/checkClientMandate', rejectUnauthenticated, async (req, res) => {
       else res.send(false)
     })
     .catch(err => {
-      // console.log(err)
+      console.log(err)
       res.status(500).send('error getting client ID')
     })
 })
@@ -75,7 +75,7 @@ router.get('/checkClientMandate', rejectUnauthenticated, async (req, res) => {
 //       customers: customers
 //     })
 //   } catch (error) {
-//     // console.log(error)
+//     console.log(error)
 //     res.status(500).send('error getting clients')
 //   }
 // })
@@ -257,10 +257,10 @@ const translatePaymentStatus = (status) => {
 //     // Initialize the GoCardLess client.
 //     const allClients = await initializeGoCardless()
 //     let payments = await allClients.payments.list()
-//     // console.log(payments)
+//     console.log(payments)
 //     res.send(payments.payments)
 //   } catch (error) {
-//     // console.log(error)
+//     console.log(error)
 //     res.status(500).send('payments not found')
 //   }
 // })
@@ -275,7 +275,7 @@ router.get('/payments/from', rejectUnauthenticated, async (req, res) => {
     const payments = paymentsList.payments
     Order.find({ user: req.user._id })
       .then(orders => {
-        // console.log("orders", orders)
+        console.log("orders", orders)
         const paidOrders = orders.filter(order => order.paymentID)
         const userPayments = paidOrders.map(order => {
           let payment = payments.find(payment => payment.id === order.paymentID)
@@ -334,7 +334,7 @@ router.get(
           })
         })
         .catch(err => {
-          // console.log(err)
+          console.log(err)
           res.status(500).send('payment not found')
         })
     } catch (error) {
@@ -456,7 +456,7 @@ const getTotal = async products => {
         return info
       })
       .catch(err => {
-        // console.log(err)
+        console.log(err)
       })
     if (productInfo) {
       let price = productInfo.price
@@ -490,7 +490,7 @@ const getTotal = async products => {
 // @access  Private
 router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
   try {
-    // console.log(req.body)
+    console.log(req.body)
     //validate delivery input sizes (check if any is empty or if zip is too short or too large)
     const { errors, isValid } = validateDeliverySizes(req.body.delivery)
     if (!isValid) {
@@ -516,11 +516,11 @@ router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
         },
         async (err, address) => {
           if (err !== null) {
-            // console.log(err)
+            console.log(err)
             res.status(500).send('addr_1')
           } else {
             const activeUser = await User.findOne({ _id: req.user._id, deleted: false}).catch(err => {
-              // console.log(err)
+              console.log(err)
             })
 
             //initialize goCardless
@@ -540,7 +540,7 @@ router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
             const theClient = await allClients.customers
               .find(activeUser.goCardlessID)
               .catch(err => {
-                // console.log('GC ID NOT FOUND')
+                console.log('GC ID NOT FOUND')
                 res.status(500).send('GoCardless ID not found')
                 return
               })
@@ -586,7 +586,7 @@ router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
               bankID: userBank.id
             })
             await newOrder.save().catch(err => {
-              // console.log(err)
+              console.log(err)
               res.status(500).send("Couldn't create new order")
               return
             })
@@ -615,7 +615,7 @@ router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
                     //Clean the cart in db
                     User.updateOne({ _id: req.user._id }, { cart: [] }).catch(
                       err => {
-                        // console.log("couldn't clean cart")
+                        console.log("couldn't clean cart")
                         res
                           .status(500)
                           .send(
@@ -640,7 +640,7 @@ router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
                     })
                   })
                   .catch(err => {
-                    // console.log(`Can't Update Database: ${err}`)
+                    console.log(`Can't Update Database: ${err}`)
                     res
                       .status(500)
                       .send(
@@ -649,7 +649,7 @@ router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
                   })
               })
               .catch(err => {
-                // console.log(err)
+                console.log(err)
                 res.status(500).send("Couldn't make payment")
               })
           }
@@ -657,14 +657,14 @@ router.post('/collect-payment', rejectUnauthenticated, async (req, res) => {
       )
     }
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     res.status(500).send('error making payment')
   }
 })
 
 router.post('/collect-custom-payment', rejectUnauthenticated, async (req, res) => {
   try {
-    // console.log(req.body)
+    console.log(req.body)
     //validate delivery input sizes (check if any is empty or if zip is too short or too large)
     const { errors, isValid } = validateDeliverySizes(req.body.delivery)
     if (!isValid) {
@@ -690,11 +690,11 @@ router.post('/collect-custom-payment', rejectUnauthenticated, async (req, res) =
         },
         async (err, address) => {
           if (err !== null) {
-            // console.log(err)
+            console.log(err)
             res.status(500).send('addr_1')
           } else {
             const activeUser = await User.findOne({ _id: req.user._id, deleted: false}).catch(err => {
-              // console.log(err)
+              console.log(err)
             })
 
 
@@ -715,7 +715,7 @@ router.post('/collect-custom-payment', rejectUnauthenticated, async (req, res) =
             const theClient = await allClients.customers
               .find(activeUser.goCardlessID)
               .catch(err => {
-                // console.log('GC ID NOT FOUND')
+                console.log('GC ID NOT FOUND')
                 res.status(500).send('GoCardless ID not found')
                 return
               })
@@ -766,7 +766,7 @@ router.post('/collect-custom-payment', rejectUnauthenticated, async (req, res) =
                   bankID: userBank.id
                 })
                 await newOrder.save().catch(err => {
-                  // console.log(err)
+                  console.log(err)
                   res.status(500).send("Couldn't create new order")
                   return
                 })
@@ -797,7 +797,7 @@ router.post('/collect-custom-payment', rejectUnauthenticated, async (req, res) =
                         //Clean the cart in db
                         User.updateOne({ _id: req.user._id }, { cart: [] }).catch(
                           err => {
-                            // console.log("couldn't clean cart")
+                            console.log("couldn't clean cart")
                             res
                               .status(500)
                               .send(
@@ -841,7 +841,7 @@ router.post('/collect-custom-payment', rejectUnauthenticated, async (req, res) =
       )
     }
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     res.status(500).send('error making payment')
   }
 })
@@ -861,7 +861,7 @@ router.post(
       //get all the order information from DB
       const order = await Order.findById(req.params.orderID).then(order => {
         if (!order) {
-          // console.log('order not found')
+          console.log('order not found')
           res.status(500).send('no order with this id')
         } else {
           return order
@@ -870,16 +870,16 @@ router.post(
 
       if (req.body.type === 'cancel') {
         const cancelPayment = await allClients.payments.cancel(order.paymentID)
-        // console.log(`Cancel Payment Status: ${cancelPayment.status}`)
+        console.log(`Cancel Payment Status: ${cancelPayment.status}`)
       } else {
         const retryPayment = await allClients.payments.retry(order.paymentID)
-        // console.log(`Retry Payment Status: ${retryPayment.status}`)
+        console.log(`Retry Payment Status: ${retryPayment.status}`)
       }
       res.json({
         success: true
       })
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       res.status(500).send('error editing payment')
     }
   }

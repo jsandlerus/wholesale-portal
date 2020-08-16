@@ -9,7 +9,7 @@ const { rejectNonAdmin } = require('../modules/authentication-middleware')
 //getList
 router.get('/', rejectNonAdmin, (req, res) => {
   console.log('Custom Order list backend hit')
-  // console.log("req.query: ", req.query)
+  console.log("req.query: ", req.query)
   const sortQuery = JSON.parse(req.query.sort)
   const filterQuery = JSON.parse(req.query.filter)
   let sort = {}

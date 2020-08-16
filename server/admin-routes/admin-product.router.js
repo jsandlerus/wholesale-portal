@@ -43,14 +43,14 @@ router.get('/', rejectNonAdmin, (req, res) => {
         })
       })
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     res.status(500).send('no users found')
   }
 })
 
 //getOne
 router.get('/:id', rejectNonAdmin, (req, res) => {
-  // console.log('getOne product hit ')
+  console.log('getOne product hit ')
 
   Product.findOne({ _id: req.params.id })
     .then(product => {
@@ -62,7 +62,7 @@ router.get('/:id', rejectNonAdmin, (req, res) => {
       res.json(product)
     })
     .catch(err => {
-      // console.log('error: ', err)
+      console.log('error: ', err)
       res.status(500).send('user not found.')
     })
 })
@@ -92,7 +92,7 @@ router.post('/', rejectNonAdmin, uploadProductPhotos, async (req, res) => {
       res.json(product)
     })
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     res.status(500).send('error on creating product, fields were missing')
   }
 })
@@ -101,7 +101,7 @@ router.post('/', rejectNonAdmin, uploadProductPhotos, async (req, res) => {
 // @desc    Edit a product
 // @access  Private
 router.put('/:id', rejectNonAdmin, uploadProductPhotos, async (req, res) => {
-  // console.log('update hit', req.params.id)
+  console.log('update hit', req.params.id)
   req.body.imageData = req.imageMetaData
   await Product.updateOne({ _id: req.params.id }, req.body)
     .then(product => {
@@ -113,7 +113,7 @@ router.put('/:id', rejectNonAdmin, uploadProductPhotos, async (req, res) => {
       res.json(product)
     })
     .catch(err => {
-      // console.log(err)
+      console.log(err)
       res.status(500).send('Failed to update.')
     })
 })
@@ -123,15 +123,15 @@ router.put('/:id', rejectNonAdmin, uploadProductPhotos, async (req, res) => {
 // @desc    Delete a Product
 // @access  Private
 router.delete('/:id', rejectNonOwner, async (req, res) => {
-  // console.log('Delete backend hit')
-  // console.log('params: ', req.params)
+  console.log('Delete backend hit')
+  console.log('params: ', req.params)
   Product.updateOne({ _id: req.params.id }, { deleted: true })
     .then(result => {
-      // console.log(result)
+      console.log(result)
       res.json('item deleted')
     })
     .catch(err => {
-      // console.log(err)
+      console.log(err)
       res.status(500).send('Deletion failed!')
     })
 })

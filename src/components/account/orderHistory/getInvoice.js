@@ -22,7 +22,7 @@ class GetInvoice extends React.Component {
         return res.data
       })
       .catch(err => {
-        // console.log(err)
+        console.log(err)
       })
     const bankInfo = await axios
       .get('/api/gc/bankFromOrder/' + this.props.order._id)
@@ -49,7 +49,7 @@ class GetInvoice extends React.Component {
       country: clientInfo.country_code,
       postal_code: clientInfo.postal_code
     }
-    // console.log(client)
+    console.log(client)
     return client
   }
   getItems = () => {
@@ -82,7 +82,7 @@ class GetInvoice extends React.Component {
   }
 
   generateInvoice = async () => {
-    // console.log('generating')
+    console.log('generating')
 
     const client = await this.getClientInfo()
     const items = await this.getItems()
@@ -104,7 +104,7 @@ class GetInvoice extends React.Component {
       chargingDate: chargingDate,
       status: this.props.payment.status
     }
-    // console.log('done generating', invoice)
+    console.log('done generating', invoice)
 
     this.setState({
       invoice: invoice

@@ -381,6 +381,8 @@ router.post('/addClient', rejectUnauthenticated, async (req, res) => {
     User.findOne({ _id: req.user._id, deleted: false})
       .then(user => {
         if (!user) {
+          console.log(user);
+          
           console.log('no user with this id')
           res.status(500).send('no user with this id')
         } else {

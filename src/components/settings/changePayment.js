@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 })
 
 class ChangePayment extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       paymentInfo: {},
@@ -30,7 +30,7 @@ class ChangePayment extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     axios
       .get('/api/gc/oneClient')
       .then(res => {
@@ -45,16 +45,16 @@ class ChangePayment extends React.Component {
         })
         // console.log(err)
       })
-      axios.get('/api/gc/bankFromUser')
-          .then(res => {
-              this.setState({
-                  bankInfo: res.data,
-              })
-              // console.log(res.data);
-          })
-          .catch(err => {
-              // console.log(err)
-          })
+    axios.get('/api/gc/bankFromUser')
+      .then(res => {
+        this.setState({
+          bankInfo: res.data,
+        })
+        // console.log(res.data);
+      })
+      .catch(err => {
+        // console.log(err)
+      })
   }
 
   changePayment = () => {
@@ -79,7 +79,7 @@ class ChangePayment extends React.Component {
       })
   }
 
-  render () {
+  render() {
     if (this.state.loading) return <img src={loading} />
     else if (Object.entries(this.state.paymentInfo).length !== 0) {
       return (
@@ -89,18 +89,18 @@ class ChangePayment extends React.Component {
               <div className='order_info_content'>Account Holder: </div>
               <div className='order_info_content'>{this.state.bankInfo.account_holder_name}</div>
             </div>
-              <div className='order_info_split'>
-                  <div className='order_info_content'>Account Number:</div>
-                  <div className='order_info_content'>********{this.state.bankInfo.account_number}</div>
-              </div>
-              <div className='order_info_split'>
-                  <div className='order_info_content'>Account Type:</div>
-                  <div className='order_info_content'>{this.state.bankInfo.account_type}</div>
-              </div>
-              <div className='order_info_split'>
-                  <div className='order_info_content'>Bank Name:</div>
-                  <div className='order_info_content'>{this.state.bankInfo.bank_name}</div>
-              </div>
+            <div className='order_info_split'>
+              <div className='order_info_content'>Account Number:</div>
+              <div className='order_info_content'>********{this.state.bankInfo.account_number}</div>
+            </div>
+            <div className='order_info_split'>
+              <div className='order_info_content'>Account Type:</div>
+              <div className='order_info_content'>{this.state.bankInfo.account_type}</div>
+            </div>
+            <div className='order_info_split'>
+              <div className='order_info_content'>Bank Name:</div>
+              <div className='order_info_content'>{this.state.bankInfo.bank_name}</div>
+            </div>
             <div className='order_info_split'>
               <div className='order_info_content'>Associated Address: </div>
               <div className='settings_payment_address'>

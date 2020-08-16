@@ -412,7 +412,7 @@ router.post('/completeRedirect/', rejectUnauthenticated, async (req, res) => {
     //get activeUser from database
     const activeUser = await User.findOne({ _id: req.user._id, deleted: false}).then(user => {
       if (!user) {
-        // console.log('no user with this id')
+        console.log('no user with this id')
         res.status(500).send('no user with this id')
       } else {
         return user
@@ -439,7 +439,7 @@ router.post('/completeRedirect/', rejectUnauthenticated, async (req, res) => {
         })
       )
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     res.status(500).send('error completing client')
   }
 })

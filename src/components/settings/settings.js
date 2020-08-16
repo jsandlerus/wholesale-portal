@@ -60,7 +60,7 @@ class Settings extends React.Component {
     axios
         .post('/api/gc/completeRedirect', {redirect: redirect})
         .then(res => {
-            if (!this.state.props.hasMandate)
+            if (!this.props.state.hasMandate)
               store.dispatch({
                 type: 'YES_MANDATE'
               })

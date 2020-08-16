@@ -22,14 +22,12 @@ class GoCardless extends React.Component {
   }
 
   confirmAccount = () => {
-    let params = new URLSearchParams(window.location.href)
+    let r = new URL(window.location.href).searchParams.get('redirect_flow_id')
 
-    const url = `${this.props.state.devURI}/buy?redirect_flow_id`
-    if (params.has(url)) {
-      const redirect = params.get(url)
+    if (r) {
       this.props.history.replace('/buy')
       axios
-        .post('/api/gc/completeRedirect', {redirect: redirect})
+        .post('/api/gc/completeRedirect', {redirect: r})
         .then(res => {
           store.dispatch({
             type: 'YES_MANDATE'

@@ -47,13 +47,13 @@ class Settings extends React.Component {
       snackbarSeverity: 'success',
       snackbarMessage: ''
     }
+  }
 
+  componentDidMount() {
     let r = new URL(window.location.href).searchParams.get('redirect_flow_id')
-
     if (r) {
       this.completeSetPayment(r);
     }
-
   }
 
   completeSetPayment = redirect => {

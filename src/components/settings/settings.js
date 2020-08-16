@@ -50,6 +50,12 @@ class Settings extends React.Component {
     let params = new URLSearchParams(window.location.href)
 
     const url = `${this.props.state.devURI}/settings?redirect_flow_id`
+    console.log(params.has(url));
+    console.log(url);
+    console.log(params.get(url));
+    
+    
+    
     if (params.has(url)) {
       this.completeSetPayment(params.get(url));
     }

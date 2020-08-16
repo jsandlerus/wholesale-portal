@@ -355,7 +355,8 @@ router.post('/addClient', rejectUnauthenticated, async (req, res) => {
   const city = req.body.newClientCity
   const postalCode = req.body.newClientPostalCode
   const success_redirect_url = process.env.DEV_URI + '/' + req.body.redirect
-
+  console.log(success_redirect_url);
+  
   try {
     // Initialize the GoCardLess allClients.
     const allClients = await initializeGoCardless()

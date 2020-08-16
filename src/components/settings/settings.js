@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
 })
 
 class Settings extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       openTab: '',
@@ -47,54 +47,47 @@ class Settings extends React.Component {
       snackbarSeverity: 'success',
       snackbarMessage: ''
     }
-    let params = new URLSearchParams(window.location.href)
 
-    const url = `${this.props.state.devURI}/settings?redirect_flow_id`
-    console.log(window.location.href)
-    console.log(params)
-    console.log(params.has(url));
-    console.log(url);
-    console.log(params.get(url));
-    
-    
-    
-    if (params.has(url)) {
-      this.completeSetPayment(params.get(url));
+    let r = new URL(window.location.href).searchParams.get('redirect_flow_id')
+
+    if (r) {
+      this.completeSetPayment(r);
     }
+
   }
 
   completeSetPayment = redirect => {
     this.props.history.replace('/settings')
     axios
-        .post('/api/gc/completeRedirect', {redirect: redirect})
-        .then(res => {
-            if (!this.props.state.hasMandate)
-              store.dispatch({
-                type: 'YES_MANDATE'
-              })
-            Swal.fire({
-              title: '<span class="swal_title"> SUCCESS',
-              text: "Your payment method has been updated!",
-              icon: 'success',
-              background: '#1E1F26',
-              customClass: {
-                confirmButton: 'swal_confirm_button'
-              }
-            })
-        })
-        .catch(err => {
-          console.log(err);
-          
-          Swal.fire({
-            title: '<span class="swal_title"> ERROR',
-            text: "Something went wrong trying to change your payment method, please try again!",
-            icon: 'error',
-            background: '#1E1F26',
-            customClass: {
-              confirmButton: 'swal_confirm_button'
-            }
+      .post('/api/gc/completeRedirect', { redirect: redirect })
+      .then(res => {
+        if (!this.props.state.hasMandate)
+          store.dispatch({
+            type: 'YES_MANDATE'
           })
+        Swal.fire({
+          title: '<span class="swal_title"> SUCCESS',
+          text: "Your payment method has been updated!",
+          icon: 'success',
+          background: '#1E1F26',
+          customClass: {
+            confirmButton: 'swal_confirm_button'
+          }
         })
+      })
+      .catch(err => {
+        console.log(err);
+
+        Swal.fire({
+          title: '<span class="swal_title"> ERROR',
+          text: "Something went wrong trying to change your payment method, please try again!",
+          icon: 'error',
+          background: '#1E1F26',
+          customClass: {
+            confirmButton: 'swal_confirm_button'
+          }
+        })
+      })
   }
 
   handleClose = (event, reason) => {
@@ -246,7 +239,7 @@ class Settings extends React.Component {
     // {!} EDIT ADDRESS FUNCTIONALITY
   }
 
-  render () {
+  render() {
     return (
       <div className='settings'>
         <div className={classes.root}>
@@ -313,8 +306,8 @@ class Settings extends React.Component {
                 {this.state.openTab !== 'password' ? (
                   <ExpandMoreIcon />
                 ) : (
-                  <ExpandLessIcon className='dropdown_active' />
-                )}
+                    <ExpandLessIcon className='dropdown_active' />
+                  )}
               </div>
               {this.state.openTab === 'password' && (
                 <div>
@@ -367,8 +360,8 @@ class Settings extends React.Component {
                 {this.state.openTab !== 'payment' ? (
                   <ExpandMoreIcon />
                 ) : (
-                  <ExpandLessIcon className='dropdown_active' />
-                )}
+                    <ExpandLessIcon className='dropdown_active' />
+                  )}
               </div>
               {this.state.openTab === 'payment' && <ChangePayment />}
             </div>

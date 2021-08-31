@@ -28,7 +28,7 @@ const adminCustomRouter = require('./admin-routes/admin-custom.router')
 
 dotenv.config()
 
-connectDB()
+// connectDB()
 
 const app = express()
 const server = http.createServer(app)
@@ -41,7 +41,7 @@ app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 app.use(cookieParser())
 app.use(express.static("build"));
-// app.use(express.static('src'))
+app.use(express.static('src'))
 app.use(sessionMiddleware)
 app.use(passport.initialize())
 app.use(passport.session())

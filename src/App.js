@@ -28,7 +28,8 @@ class App extends React.Component {
     if (!this.props.state.loaded) {
       return <div className='App'></div>
     }
-    let loggedInRoutes = (
+    // loggedInRoutes
+    let loggedOutRoutes = (
       <Router>
         <div className='background'>
           <Sidebar />
@@ -50,7 +51,8 @@ class App extends React.Component {
         </div>
       </Router>
     )
-    let loggedOutRoutes = (
+    // loggedOutRoutes
+    let loggedInRoutes = (
       <Router>
         <Switch>
           <Route exact path='/' component={Login} />

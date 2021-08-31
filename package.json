@@ -1,4 +1,5 @@
 {
+  "homepage": "http://jsandlerus.github.io/wholesale-portal",
   "name": "productivity-management",
   "version": "0.1.0",
   "proxy": "http://localhost:5000",
@@ -54,6 +55,8 @@
     "validator": "^13.1.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "server": "env NODE_ENV=dev nodemon --watch server server/server.js",
     "client": "react-scripts start",
     "build": "react-scripts build",
@@ -76,5 +79,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }

@@ -46,6 +46,7 @@ class App extends React.Component {
               <Route path='/product/:productID' component={Product} />
               <Route path='/order/:orderID' component={Order} />
               <Route path='/*' component={ErrorPage404} />
+              <Route exact path='' component={Home} />
             </Switch>
           </div>
         </div>

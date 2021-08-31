@@ -1,0 +1,193 @@
+/* :root {
+  --logo-green: #59BA47;
+  --light-hyperlink-green: #60944d;
+  --dark-hyperlink-green: #33743A;
+
+  --header-font-white: #000000;
+  --paragraph-font-grey: #1e1e1f;
+  --nofocus-font-grey: #393b3d;
+
+  --sidebar-black: #7d7f8a;
+  --searchbar-black: #5f5f5f;
+  --background-grey: #c2c2c2;
+} */
+
+:root {
+  --logo-green: #59ba47;
+  --light-hyperlink-green: #72bd57;
+  --dark-hyperlink-green: #33743a;
+
+  --header-font-white: #cccccc;
+  --paragraph-font-grey: #b4b5b7;
+  --nofocus-font-grey: #75777a;
+
+  --sidebar-black: #16181d;
+  --searchbar-black: #1a1b20;
+  --background-grey: #1e2026;
+  --input-grey: #2d2f36;
+
+  --attention-red: #c10606;
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  font-family: 'GT Walsheim Pro Medium';
+  scroll-behavior: smooth;
+}
+
+html {
+  background-color: var(--sidebar-black);
+  color: var(--header-font-white);
+}
+
+.background {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.body {
+  background-color: var(--background-grey);
+  width: 95%;
+  padding: 6vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50px 0px 0px 50px;
+}
+
+*:focus {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* materialUI buttons */
+.MuiButton-root {
+  text-transform: none !important;
+  border-radius: 8px !important;
+  letter-spacing: 1px !important;
+  font-size: 0.8vw !important;
+}
+
+.icon_upsidedown {
+  transform: rotate(180deg);
+}
+
+.full {
+  width: 100%;
+}
+
+.half {
+  width: 70%;
+}
+
+.raffle_input_title {
+  font-size: 0.9vw;
+  padding-left: 3%;
+}
+
+.input_container {
+  background-color: var(--input-grey);
+  width: 92%;
+  padding: 2% 4% 2% 4%;
+  border-radius: 6px;
+}
+
+.input_input {
+  width: 100%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--header-font-white);
+}
+
+.input_error {
+  border: 1px solid red;
+}
+
+.page_header {
+  font-size: 2vw;
+  margin-left: 2%;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+}
+
+.page_subheader {
+  margin-top: 1vh;
+  font-size: 1.4vw;
+}
+
+.space_between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.no_display {
+  display: none;
+}
+
+.no_items_message {
+  width: 70%;
+  margin-top: 3vh;
+  font-size: 1vw;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px var(--input-grey) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+@font-face {
+  font-family: 'GT Walsheim Pro Medium';
+  src: url('https://db.onlinewebfonts.com/t/d4f20dfedfdf197ed0ac52b09bf25551.eot'); /* IE9*/
+  src: url('https://db.onlinewebfonts.com/t/d4f20dfedfdf197ed0ac52b09bf25551.eot?#iefix')
+      format('embedded-opentype'),
+    /* IE6-IE8 */
+      url('https://db.onlinewebfonts.com/t/d4f20dfedfdf197ed0ac52b09bf25551.woff2')
+      format('woff2'),
+    /* chrome firefox */
+      url('https://db.onlinewebfonts.com/t/d4f20dfedfdf197ed0ac52b09bf25551.woff')
+      format('woff'),
+    /* chrome firefox */
+      url('https://db.onlinewebfonts.com/t/d4f20dfedfdf197ed0ac52b09bf25551.ttf')
+      format('truetype'),
+    /* chrome firefox opera Safari, Android, iOS 4.2+*/
+      url('https://db.onlinewebfonts.com/t/d4f20dfedfdf197ed0ac52b09bf25551.svg#GT Walsheim Pro Medium')
+      format('svg'); /* iOS 4.1- */
+}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+@import './components/sidebar/sidebar.css';
+@import './components/header/header.css';
+@import './components/home/home.css';
+@import './components/product/product.css';
+@import './components/account/account.css';
+@import './components/auth/auth.css';
+@import './components/cart/cart.css';
+@import './components/settings/settings.css';
+@import './components/account/orderHistory/orderHistory.css';
+@import './components/error/error.css';
+@import './components/admin/reactAdmin.css';

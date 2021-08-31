@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/wholesale-portal/static/css/main.8b8d5f2c.chunk.css",
+    "main.js": "/wholesale-portal/static/js/main.52196214.chunk.js",
+    "main.js.map": "/wholesale-portal/static/js/main.52196214.chunk.js.map",
+    "runtime-main.js": "/wholesale-portal/static/js/runtime-main.3f62a953.js",
+    "runtime-main.js.map": "/wholesale-portal/static/js/runtime-main.3f62a953.js.map",
+    "static/js/2.526f7362.chunk.js": "/wholesale-portal/static/js/2.526f7362.chunk.js",
+    "static/js/2.526f7362.chunk.js.map": "/wholesale-portal/static/js/2.526f7362.chunk.js.map",
+    "index.html": "/wholesale-portal/index.html",
+    "precache-manifest.0f42aa14e50090fec1e3c0b02638bf78.js": "/wholesale-portal/precache-manifest.0f42aa14e50090fec1e3c0b02638bf78.js",
+    "service-worker.js": "/wholesale-portal/service-worker.js",
+    "static/css/main.8b8d5f2c.chunk.css.map": "/wholesale-portal/static/css/main.8b8d5f2c.chunk.css.map",
+    "static/js/2.526f7362.chunk.js.LICENSE.txt": "/wholesale-portal/static/js/2.526f7362.chunk.js.LICENSE.txt",
+    "static/media/cbddy_logo_small.png": "/wholesale-portal/static/media/cbddy_logo_small.ef46ab60.png",
+    "static/media/loading.svg": "/wholesale-portal/static/media/loading.2a237eed.svg",
+    "static/media/loadingBig.svg": "/wholesale-portal/static/media/loadingBig.4e5d1365.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3f62a953.js",
+    "static/js/2.526f7362.chunk.js",
+    "static/css/main.8b8d5f2c.chunk.css",
+    "static/js/main.52196214.chunk.js"
+  ]
+}

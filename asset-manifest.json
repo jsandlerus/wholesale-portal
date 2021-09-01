@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/wholesale-portal/static/css/main.8b8d5f2c.chunk.css",
-    "main.js": "/wholesale-portal/static/js/main.52196214.chunk.js",
-    "main.js.map": "/wholesale-portal/static/js/main.52196214.chunk.js.map",
+    "main.js": "/wholesale-portal/static/js/main.8950f9ea.chunk.js",
+    "main.js.map": "/wholesale-portal/static/js/main.8950f9ea.chunk.js.map",
     "runtime-main.js": "/wholesale-portal/static/js/runtime-main.3f62a953.js",
     "runtime-main.js.map": "/wholesale-portal/static/js/runtime-main.3f62a953.js.map",
     "static/js/2.526f7362.chunk.js": "/wholesale-portal/static/js/2.526f7362.chunk.js",
     "static/js/2.526f7362.chunk.js.map": "/wholesale-portal/static/js/2.526f7362.chunk.js.map",
     "index.html": "/wholesale-portal/index.html",
-    "precache-manifest.0f42aa14e50090fec1e3c0b02638bf78.js": "/wholesale-portal/precache-manifest.0f42aa14e50090fec1e3c0b02638bf78.js",
+    "precache-manifest.b622a5d460801ad3990a3a569b5745b6.js": "/wholesale-portal/precache-manifest.b622a5d460801ad3990a3a569b5745b6.js",
     "service-worker.js": "/wholesale-portal/service-worker.js",
     "static/css/main.8b8d5f2c.chunk.css.map": "/wholesale-portal/static/css/main.8b8d5f2c.chunk.css.map",
     "static/js/2.526f7362.chunk.js.LICENSE.txt": "/wholesale-portal/static/js/2.526f7362.chunk.js.LICENSE.txt",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.3f62a953.js",
     "static/js/2.526f7362.chunk.js",
     "static/css/main.8b8d5f2c.chunk.css",
-    "static/js/main.52196214.chunk.js"
+    "static/js/main.8950f9ea.chunk.js"
   ]
 }
